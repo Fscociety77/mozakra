@@ -25,6 +25,7 @@ body {
   padding: 30px;
   border-radius: 20px;
   text-align: center;
+  overflow: hidden;
 }
 
 .logo img {
@@ -59,7 +60,7 @@ button {
 <div class="login-card">
 
   <div class="logo">
-    <img src="assets/Rectangle-6.png" alt="Mozakra">
+    <img src="assets/Rectangle-6.png">
   </div>
 
   <h2>MOZAKRA LOGIN</h2>
@@ -67,6 +68,7 @@ button {
   <input id="username" type="text" placeholder="User Name">
   <input id="password" type="password" placeholder="Password">
 
+  <!-- 🔴 مهم -->
   <button type="button" onclick="login()">Login</button>
 
 </div>
@@ -86,48 +88,25 @@ function login() {
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({
-      userName: userName,
-      password: password
-    })
+    body: JSON.stringify({ userName, password }) // ✅ هنا كان صحيح بالفعل
   })
   .then(res => res.json())
   .then(data => {
     console.log("LOGIN RESPONSE:", data);
 
-    /* ================= TOKEN ================= */
-    const token =
-      data.token ||
-      data.accessToken ||
-      (data.data && data.data.token);
-
-    if (!token) {
+    // 🔴 التعديل هنا فقط: تغيير التحقق من data.success
+    if (!data.token) {  // ✅ بدلاً من !data.success
       alert("Wrong username or password ❌");
       return;
-    }
+    } 
 
-    localStorage.setItem("token", token);
+    // حفظ البيانات
+    localStorage.setItem("token", data.token);
+    localStorage.setItem("user", JSON.stringify(data.user || {}));
 
-    /* ================= USER ================= */
-    const user =
-      data.user ||
-      (data.data && data.data.user) ||
-      null;
-
-    if (user) {
-      localStorage.setItem("user", JSON.stringify(user));
-    }
-
-    /* ================= ROLE ================= */
-    const role =
-      user?.role ||
-      data.role ||
-      data.userType ||
-      "student"; // fallback آمن
-
-    console.log("USER ROLE:", role);
-
-    /* ================= ROUTING ================= */
+    // تحويل حسب الدور
+    const role = data.role || (data.user ? data.user.role : 'student');
+    
     if (role === "admin") {
       window.location.href = "admin.html";
     } else {
@@ -140,6 +119,7 @@ function login() {
   });
 }
 </script>
+
 
 </body>
 </html>
