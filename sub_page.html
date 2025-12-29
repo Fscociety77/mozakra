@@ -164,6 +164,8 @@
       <a href="index.html">Home</a>
       <a href="chat.html">Mozakra AI</a>
       <a href="course.html" class="btn-join">Join US</a>
+        <a href="note.html">notes</a>
+        <a href="admin.html">admin</a>
     </nav>
   </header>
 
@@ -242,17 +244,6 @@
   </a>
 </section>
 // في بداية sub_page.html
-<script>document.addEventListener('DOMContentLoaded', function() {
-  const token = localStorage.getItem('auth_token');
-  
-  if (!token) {
-    console.log('لا يوجد token، التوجيه للدخول');
-    window.location.href = "login.html";
-    return;
-  }
-  
-  console.log('أهلاً! Token:', token.substring(0, 20) + '...');
-});
  </script>
 </body>
 </html>
