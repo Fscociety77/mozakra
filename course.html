@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Math Course</title>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="course.css" />
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    .comment-wrapper {
+      width: 60%;
+      margin: 40px auto;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .comment-wrapper textarea {
+      height: 100px;
+      padding: 10px;
+      font-size: 16px;
+    }
+
+    .comment-wrapper button {
+      margin-top: 10px;
+      padding: 10px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- Navbar -->
+<header class="navbar">
+  <div class="logo">Math Course</div>
+  <nav class="nav-links">
+    <a class="active" href="#">HOME</a>
+    <a href="#">Product</a>
+    <a href="#">Profile</a>
+  </nav>
+</header>
+
+<!-- Course Section -->
+<section class="course">
+  <div class="course-left">
+    <img src="assets/math-course.png" alt="Math Course">
+
+    <div class="course-buttons">
+      <button class="btn join">Join Now</button>
+      <button class="btn share">
+        Share course <span>⬆</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="course-right">
+    <h2>Course details</h2>
+    <p><strong>course type:</strong> self-paced</p>
+    <p><strong>available lessons:</strong> 120</p>
+    <p class="more">more details...</p>
+  </div>
+</section>
+
+<!-- Comment Section -->
+<div class="comment-wrapper">
+  <textarea id="commentText" placeholder="Write your notes..."></textarea>
+  <button onclick="addNote()">Add Notes</button>
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-box">
+    <h4>Mozakra Team</h4>
+    <p>Your trusted partner for Studying<br>effective and smooth</p>
+  </div>
+
+  <div class="footer-box">
+    <h4>Quick Links</h4>
+    <a href="#">About Us</a>
+    <a href="#">Tour Packages</a>
+    <a href="#">Terms & Conditions</a>
+    <a href="#">Privacy Policy</a>
+  </div>
+
+  <div class="footer-box">
+    <h4>Contact Us</h4>
+    <p>📞 +20 1152071345</p>
+    <p>✉ info@mostafaelashry03.com</p>
+    <p>📍 Cairo, Egypt</p>
+  </div>
+</footer>
+
+<div class="copyright">
+  © 2025 Mozakra Co-op . All rights reserved.
+</div>
+
+<!-- ================= JS ================= -->
+<script>
+/* ================= CONFIG ================= */
+const COURSE_ID = "692ef2479cbcd67d3ca22f86"; // ID الكورس الصح
+const API_BASE = "https://mozakra-production.up.railway.app/api";
+
+/* ================= ADD NOTE ================= */
+function addNote() {
+  const token = localStorage.getItem("token");
+  const note = document.getElementById("commentText").value.trim();
+
+  if (!token) {
+    alert("Please login first ❌");
+    return;
+  }
+
+  if (!note) {
+    alert("Write a note first ✍️");
+    return;
+  }
+
+  console.log("TOKEN:", token);
+  console.log("NOTE:", note);
+  console.log("COURSE:", COURSE_ID);
+
+  fetch(`${API_BASE}/courses/${COURSE_ID}/comment`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "authorization": token   // 👈 الباك مستني التوكن كده
+    },
+    body: JSON.stringify({
+      comment: note
+    })
+  })
+  .then(res => {
+    if (!res.ok) throw new Error("Request failed");
+    return res.json();
+  })
+  .then(data => {
+    console.log("SUCCESS:", data);
+    alert("Note added successfully ✅");
+    document.getElementById("commentText").value = "";
+  })
+  .catch(err => {
+    console.error("ERROR:", err);
+    alert("Error adding note ❌");
+  });
+}
+
+/* ================= GET COURSE (اختياري) ================= */
+fetch(`${API_BASE}/courses/${COURSE_ID}`)
+  .then(res => res.json())
+  .then(data => {
+    console.log("COURSE DATA:", data);
+  })
+  .catch(() => {});
+</script>
+</body>
+</html>

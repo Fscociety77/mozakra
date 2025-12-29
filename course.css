@@ -1,0 +1,132 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif;
+}
+
+body {
+  background-color: #6f93db;
+  color: white;
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 25px 60px;
+}
+
+.logo {
+  font-size: 32px;
+  font-weight: 700;
+}
+
+.nav-links {
+  display: flex;
+  gap: 40px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: white;
+  font-weight: 600;
+  letter-spacing: 1px;
+}
+
+.nav-links .active {
+  font-style: italic;
+}
+
+/* Course Section */
+.course {
+  display: flex;
+  align-items: flex-start;   /* يخلي الكلام يبدأ من فوق */
+  padding: 60px;
+  gap: 30px;                 /* يقلل المسافة */
+}
+
+
+.course-left img {
+  width: 520px;
+  border-radius: 20px;
+}
+
+.course-buttons {
+  margin-top: 25px;
+  display: flex;
+  gap: 20px;
+}
+
+.btn {
+  padding: 12px 28px;
+  border-radius: 30px;
+  border: none;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.join {
+  background-color: #00d4ff;
+  color: white;
+}
+
+.share {
+  background-color: white;
+  color: #00d4ff;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Course Details */
+.course-right h2 {
+  font-size: 32px;
+  margin-bottom: 20px;
+  color: black;
+}
+
+.course-right p {
+  font-size: 20px;
+  margin-bottom: 10px;
+  color: black;
+}
+
+.course-right .more {
+  margin-top: 15px;
+  font-weight: 600;
+}
+
+/* Footer */
+.footer {
+  margin: 80px 60px 20px;
+  padding: 30px;
+  border: 1px solid rgba(255,255,255,0.4);
+  display: flex;
+  justify-content: space-between;
+}
+
+.footer-box h4 {
+  margin-bottom: 15px;
+}
+
+.footer-box a {
+  display: block;
+  color: white;
+  text-decoration: none;
+  margin-bottom: 8px;
+}
+
+.footer-box p {
+  font-size: 14px;
+}
+
+/* Copyright */
+.copyright {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 14px;
+  opacity: 0.9;
+}

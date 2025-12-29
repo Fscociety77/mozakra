@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Admin Panel</title>
+<link rel="stylesheet" href="admin.css" />
+
+<style>
+/* ===== RESET PASSWORD – SIZE متوسط ===== */
+.big-form {
+    width: 420px;
+    margin: 130px auto;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.big-form input {
+    height: 60px;
+    border: none;
+    border-radius: 8px;
+    font-size: 18px;        /* أصغر شوية */
+    font-weight: 400;      /* 👈 عادي */
+    text-align: center;
+    outline: none;
+    background: #fff;
+    color: #000;
+}
+
+.big-form input::placeholder {
+    color: #555;           /* أهدى */
+    font-weight: 400;      /* 👈 عادي */
+}
+
+</style>
+
+
+
+
+</head>
+
+<body>
+
+<header class="top-bar">
+  <a href="#" class="back">&larr;</a>
+  <div class="tabs">
+    <span class="tab active-tab" data-target="reset">RESET PASSWORD</span>
+    <span class="tab" data-target="upload">UPLOAD FILES</span>
+    <span class="tab" data-target="create">CREATE ACCOUNT</span>
+  </div>
+</header>
+<section class="screen" data-screen="create">
+    <div class="form-box">
+        <input type="text" placeholder="USER NAME">
+        <input type="email" placeholder="EMAIL">
+        <input type="password" placeholder="PASSWORD">
+        <button>Create Account</button>
+    </div>
+</section>
+
+<section class="screen active" data-screen="reset">
+    <div class="big-form">
+        <input type="text" placeholder="USER NAME">
+        <input type="password" placeholder="NEW PASSWORD">
+        <input type="password" placeholder="PASSWORD AGAIN">
+    </div>
+</section>
+
+  </div>
+</section>
+
+<section class="screen" data-screen="upload">
+
+  <!-- Upload PDF -->
+  <div class="upload-box">
+    <h3>Upload Course PDF</h3>
+    <input type="file" id="pdfFile" accept="application/pdf">
+    <button onclick="uploadPDF()">Upload</button>
+  </div>
+
+  <!-- Delete PDF -->
+  <div class="upload-box delete-box">
+    <h3>Delete Course PDF</h3>
+    <input type="text" id="courseId" placeholder="Course ID">
+    <button onclick="deleteCourse()">Delete</button>
+  </div>
+
+</section>
+
+
+</section>
+
+  </div>
+
+</section>
+
+</section>
+
+<!-- CREATE ACCOUNT -->
+<section class="screen" data-screen="create">
+  <div class="form-box">
+    <input type="text" id="createUsername" placeholder="USER NAME">
+    <input type="email" id="createEmail" placeholder="EMAIL">
+    <input type="password" id="createPassword" placeholder="PASSWORD">
+    <button onclick="createAccount()">Create Account</button>
+  </div>
+</section>
+<body>
+
+<script>
+  // في بداية admin.html
+document.addEventListener('DOMContentLoaded', function() {
+  const token = localStorage.getItem('auth_token');
+  const role = localStorage.getItem('user_role');
+  
+  if (!token) {
+    console.log('لا يوجد token، التوجيه للدخول');
+    window.location.href = "login.html";
+    return;
+  }
+  
+  if (role !== 'admin') {
+    console.log('المستخدم ليس أدمن، التوجيه للصفحة العادية');
+    window.location.href = 'sub_page.html';
+    return;
+  }
+  
+  console.log('أهلاً بالأدمن! Token:', token.substring(0, 20) + '...');
+});
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  if (!user || user.role !== "admin") {
+    window.location.href = "login.html";
+  }
+</script>
+
+<script>
+
+/* ===== TABS ===== */
+const tabs = document.querySelectorAll(".tab");
+const screens = document.querySelectorAll(".screen");
+
+tabs.forEach(tab => {
+  tab.addEventListener("click", () => {
+    tabs.forEach(t => t.classList.remove("active-tab"));
+    screens.forEach(s => s.classList.remove("active"));
+
+    tab.classList.add("active-tab");
+    document
+      .querySelector(`.screen[data-screen="${tab.dataset.target}"]`)
+      .classList.add("active");
+  });
+});
+
+/* ===== UPLOAD PDF ===== */
+function uploadPDF() {
+  const fileInput = document.getElementById("pdfFile");
+  const token = localStorage.getItem("token");
+
+  if (!token || fileInput.files.length === 0) return;
+
+  const formData = new FormData();
+  formData.append("pdf", fileInput.files[0]);
+
+  fetch("https://mozakra-production.up.railway.app/api/upload", {
+    method: "POST",
+    headers: { "Authorization": "Bearer " + token },
+    body: formData
+  })
+  .then(res => res.json())
+  .then(() => alert("PDF uploaded successfully ✅"))
+  .catch(() => alert("Upload failed ❌"));
+}
+
+/* ===== DELETE COURSE ===== */
+function deleteCourse() {
+  const courseId = document.getElementById("deleteCourseId").value;
+  const token = localStorage.getItem("token");
+
+  if (!token || !courseId) return alert("Missing data ❌");
+
+  fetch(`https://mozakra-production.up.railway.app/api/course/${courseId}`, {
+    method: "DELETE",
+    headers: {
+      "Authorization": "Bearer " + token
+    }
+  })
+  .then(res => {
+    if (!res.ok) throw new Error();
+    alert("Course deleted successfully ✅");
+  })
+  .catch(() => alert("Delete failed ❌"));
+}
+
+/* ===== CREATE ACCOUNT ===== */
+function createAccount() {
+  const username = document.getElementById("createUsername").value;
+  const email = document.getElementById("createEmail").value;
+  const password = document.getElementById("createPassword").value;
+  const token = localStorage.getItem("token");
+
+  if (!token) return;
+
+  fetch("https://mozakra-production.up.railway.app/api/auth/register", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer " + token
+    },
+    body: JSON.stringify({ username, email, password })
+  })
+  .then(res => res.json())
+  .then(() => alert("Account created successfully ✅"))
+  .catch(() => alert("Create account failed ❌"));
+}
+</script>
+
+</body>
+</html>

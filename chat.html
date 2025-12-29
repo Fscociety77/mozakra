@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mozakra Chat</title>
+
+  <link rel="stylesheet" href="chat.css">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <!-- Back Arrow -->
+  <a href="#" class="back-btn">←</a>
+
+  <!-- Title -->
+  <h1 class="chat-title">MOZAKRA CHAT</h1>
+
+  <!-- Input -->
+  <div class="chat-input">
+    <span class="icon">＋</span>
+
+    <!-- 👇 أضفنا id -->
+    <input
+      type="text"
+      id="chatInput"
+      placeholder="Ask your question ............."
+    >
+
+    <!-- زرار إرسال -->
+    <span class="icon" onclick="sendMessage()">📤</span>
+  </div>
+
+  <!-- Chat Area -->
+  <div class="chat-area" id="chatArea"></div>
+
+  <!-- ✅ SCRIPT (آخر الصفحة) -->
+  <script>
+    function sendMessage() {
+      console.log("sendMessage called ✅");
+
+      const message = document.getElementById("chatInput").value;
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        alert("Login first ❌");
+        return;
+      }
+
+      if (!message.trim()) {
+        alert("Write a message ❌");
+        return;
+      }
+
+      fetch("https://mozakra-production.up.railway.app/api/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer " + token
+        },
+        body: JSON.stringify({ message })
+      })
+      .then(res => {
+        if (!res.ok) throw new Error("Request failed");
+        return res.json();
+      })
+      .then(data => {
+        console.log("API response:", data);
+
+        // عرض الرسالة في الصفحة
+        const chatArea = document.getElementById("chatArea");
+        chatArea.innerHTML += `<p><b>You:</b> ${message}</p>`;
+
+        document.getElementById("chatInput").value = "";
+      })
+      .catch(err => {
+        console.error("Chat error ❌", err);
+        alert("Chat error ❌");
+      });
+    }
+  </script>
+
+</body>
+</html>
