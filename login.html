@@ -5,11 +5,6 @@
 <title>Mozakra Login</title>
 
 <style>
-* {
-  box-sizing: border-box;
-  font-family: Arial, Helvetica, sans-serif;
-}
-
 body {
   margin: 0;
   height: 100vh;
@@ -17,6 +12,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .login-card {
@@ -25,7 +21,6 @@ body {
   padding: 30px;
   border-radius: 20px;
   text-align: center;
-  overflow: hidden;
 }
 
 .logo img {
@@ -58,68 +53,55 @@ button {
 <body>
 
 <div class="login-card">
-
   <div class="logo">
-    <img src="assets/Rectangle-6.png">
+    <img src="assets/Rectangle-6.png" alt="Mozakra">
   </div>
 
   <h2>MOZAKRA LOGIN</h2>
 
   <input id="username" type="text" placeholder="User Name">
   <input id="password" type="password" placeholder="Password">
-
-  <!-- 🔴 مهم -->
-  <button type="button" onclick="login()">Login</button>
-
+  <button onclick="login()">Login</button>
 </div>
 
 <script>
 function login() {
-  const userName = document.getElementById("username").value.trim();
-  const password = document.getElementById("password").value.trim();
+  const userName = username.value.trim();
+  const password = password.value.trim();
 
   if (!userName || !password) {
-    alert("Please enter username and password");
+    alert("Enter username and password");
     return;
   }
 
   fetch("https://mozakra-production.up.railway.app/api/login", {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
-    body: JSON.stringify({ userName, password }) // ✅ هنا كان صحيح بالفعل
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ userName, password })
   })
   .then(res => res.json())
   .then(data => {
-    console.log("LOGIN RESPONSE:", data);
+    const token = data.token;
+    const user = data.user;
 
-    // 🔴 التعديل هنا فقط: تغيير التحقق من data.success
-    if (!data.token) {  // ✅ بدلاً من !data.success
-      alert("Wrong username or password ❌");
+    if (!token || !user) {
+      alert("Login failed");
       return;
-    } 
+    }
 
-    // حفظ البيانات
-    localStorage.setItem("token", data.token);
-    localStorage.setItem("user", JSON.stringify(data.user || {}));
+    localStorage.setItem("token", token);
+    localStorage.setItem("user", JSON.stringify(user));
 
-    // تحويل حسب الدور
-    const role = data.role || (data.user ? data.user.role : 'student');
-    
-    if (role === "admin") {
+    // 🔥 Routing النهائي
+    if (user.role === "admin") {
       window.location.href = "admin.html";
     } else {
       window.location.href = "sub_page.html";
     }
   })
-  .catch(err => {
-    console.error(err);
-    alert("Server error ❌");
-  });
+  .catch(() => alert("Server error"));
 }
 </script>
-
 
 </body>
 </html>
