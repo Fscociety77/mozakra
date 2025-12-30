@@ -1,107 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Mozakra Login</title>
-
-<style>
-body {
-  margin: 0;
-  height: 100vh;
-  background: #6f93db;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-family: Arial, Helvetica, sans-serif;
-}
-
-.login-card {
-  background: #fff;
-  width: 360px;
-  padding: 30px;
-  border-radius: 20px;
-  text-align: center;
-}
-
-.logo img {
-  width: 140px;
-  margin-bottom: 20px;
-}
-
-input {
-  width: 100%;
-  padding: 12px;
-  margin-bottom: 15px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-}
-
-button {
-  width: 100%;
-  padding: 12px;
-  background: #00cfff;
-  border: none;
-  color: #fff;
-  font-size: 16px;
-  border-radius: 8px;
-  font-weight: bold;
-  cursor: pointer;
-}
-</style>
+    <meta charset="UTF-8">
+    <title>Mozakra Login</title>
+    <style>
+        body { margin: 0; height: 100vh; background: #6f93db; display: flex; justify-content: center; align-items: center; font-family: Arial, sans-serif; }
+        .login-card { background: #fff; width: 360px; padding: 30px; border-radius: 20px; text-align: center; }
+        .logo img { width: 140px; margin-bottom: 20px; }
+        input { width: 100%; padding: 12px; margin-bottom: 15px; border-radius: 8px; border: 1px solid #ccc; box-sizing: border-box; }
+        button { width: 100%; padding: 12px; background: #00cfff; border: none; color: #fff; font-size: 16px; border-radius: 8px; font-weight: bold; cursor: pointer; }
+        button:disabled { background: #ccc; }
+        #error-msg { color: red; font-size: 14px; margin-top: 10px; display: none; }
+    </style>
 </head>
-
 <body>
+    <div class="login-card">
+        <div class="logo"><img src="assets/Rectangle-6.png" alt="Mozakra"></div>
+        <h2>MOZAKRA LOGIN</h2>
+        <input id="username-input" type="text" placeholder="User Name">
+        <input id="password-input" type="password" placeholder="Password">
+        <button id="login-btn" onclick="login()">Login</button>
+        <p id="error-msg"></p>
+    </div>
 
-<div class="login-card">
-  <div class="logo">
-    <img src="assets/Rectangle-6.png" alt="Mozakra">
-  </div>
+    <script>
+        async function login() {
+            const usernameInput = document.getElementById("username-input");
+            const passwordInput = document.getElementById("password-input");
+            const loginBtn = document.getElementById("login-btn");
+            const errorMsg = document.getElementById("error-msg");
 
-  <h2>MOZAKRA LOGIN</h2>
+            const userName = usernameInput.value.trim();
+            const password = passwordInput.value.trim();
 
-  <input id="username" type="text" placeholder="User Name">
-  <input id="password" type="password" placeholder="Password">
-  <button onclick="login()">Login</button>
-</div>
+            if (!userName || !password) {
+                alert("Please enter username and password");
+                return;
+            }
 
-<script>
-function login() {
-  const userName = username.value.trim();
-  const password = password.value.trim();
+            loginBtn.innerText = "Logging in...";
+            loginBtn.disabled = true;
+            errorMsg.style.display = "none";
 
-  if (!userName || !password) {
-    alert("Enter username and password");
-    return;
-  }
+            try {
+                const response = await fetch("https://mozakra-production.up.railway.app/api/login", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ userName, password })
+                });
 
-  fetch("https://mozakra-production.up.railway.app/api/login", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ userName, password })
-  })
-  .then(res => res.json())
-  .then(data => {
-    const token = data.token;
-    const user = data.user;
+                const data = await response.json();
 
-    if (!token || !user) {
-      alert("Login failed");
-      return;
-    }
+                if (response.ok && data.token) {
+                    localStorage.setItem("token", data.token);
+                    localStorage.setItem("user", JSON.stringify(data.user));
 
-    localStorage.setItem("token", token);
-    localStorage.setItem("user", JSON.stringify(user));
-
-    // 🔥 Routing النهائي
-    if (user.role === "admin") {
-      window.location.href = "admin.html";
-    } else {
-      window.location.href = "sub_page.html";
-    }
-  })
-  .catch(() => alert("Server error"));
-}
-</script>
-
+                    // الفحص الصحيح للأدمن (بناءً على مصفوفة roles)
+                    const userRoles = data.user.roles || [];
+                    if (userRoles.includes("admin")) {
+                        window.location.href = "admin.html";
+                    } else {
+                        window.location.href = "sub_page.html";
+                    }
+                } else {
+                    throw new Error(data.message || "Invalid credentials");
+                }
+            } catch (error) {
+                errorMsg.innerText = error.message;
+                errorMsg.style.display = "block";
+            } finally {
+                loginBtn.innerText = "Login";
+                loginBtn.disabled = false;
+            }
+        }
+    </script>
 </body>
 </html>
