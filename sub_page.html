@@ -9,6 +9,26 @@
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
 
   <style>
+    .logout-btn-nav {
+  background: #ff4d4d;
+  color: white;
+  padding: 8px 18px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+  cursor: pointer;
+  border: none;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.login-btn-nav {
+  background: #00cfff;
+  color: white;
+  padding: 8px 18px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: bold;
+}
     /* About CS Section */
 .about-cs {
   display: flex;
@@ -166,10 +186,12 @@
   <header class="navbar">
     <div class="logo">Mozakra</div>
 
-    <nav class="nav-links">
-      <a href="index.html">Home</a>
-      <a href="chat.html">Mozakra AI</a>
-        <a href="admin.html">admin</a>
+   <nav class="nav-links" id="nav-links">
+  <a href="index.html">Home</a>
+  <a href="chat.html">Mozakra AI</a>
+  <a href="admin.html" id="admin-link" style="display: none;">Admin</a> <a href="videos.html">First Term ?</a>
+  <span id="auth-button-container"></span>
+</nav>
     </nav>
   </header>
 
@@ -212,3 +234,31 @@
   </a>
 
 </section>
+<script>
+  function updateNavbar() {
+    const token = localStorage.getItem("token");
+    const user = JSON.parse(localStorage.getItem("user") || "{}");
+    const container = document.getElementById("auth-button-container");
+    const adminLink = document.getElementById("admin-link");
+
+    // 1. إظهار لين رابط الأدمن فقط لو المستخدم أدمن
+    if (user.roles && user.roles.includes("admin")) {
+      adminLink.style.display = "inline";
+    }
+
+    // 2. تغيير الزرار بناءً على حالة تسجيل الدخول
+    if (token) {
+      container.innerHTML = `<button class="logout-btn-nav" onclick="handleLogout()">Logout</button>`;
+    } else {
+      container.innerHTML = `<a href="login.html" class="login-btn-nav">Login</a>`;
+    }
+  }
+
+  function handleLogout() {
+    localStorage.clear(); // يمسح التوكن واليوزر
+    window.location.reload(); // يعمل ريفريش للصفحة عشان تتحدث
+  }
+
+  // تشغيل الفحص عند تحميل الصفحة
+  window.onload = updateNavbar;
+</script>
