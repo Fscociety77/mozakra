@@ -1,133 +1,262 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<title>Admin Panel</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Mozakra</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+            background: #6f93db; /* نفس لون الخلفية */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: Arial, Helvetica, sans-serif; /* نفس خط اللوجن */
+        }
 
-<style>
-body {
-  margin: 0;
-  font-family: Arial, Helvetica, sans-serif;
-  background: #0f172a;
-  color: white;
-}
+        .admin-card {
+            background: #fff;
+            width: 380px; /* نفس عرض كارت اللوجن تقريباً */
+            padding: 30px;
+            border-radius: 20px; /* نفس الحواف الدائرية */
+            text-align: center;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
 
-.top-bar {
-  padding: 16px 30px;
-  background: #020617;
-}
+        .logo img {
+            width: 120px;
+            margin-bottom: 15px;
+        }
 
-.tabs span {
-  margin-right: 20px;
-  cursor: pointer;
-  opacity: .6;
-}
+        h2 {
+            color: #333;
+            font-size: 20px;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+        }
 
-.active {
-  opacity: 1;
-  font-weight: bold;
-}
+        /* تنسيق التابات (الزراير اللي فوق) */
+        .tabs {
+            display: flex;
+            justify-content: space-around;
+            margin-bottom: 20px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
 
-.screen {
-  display: none;
-  padding: 40px;
-}
+        .tabs span {
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            color: #888;
+            transition: 0.3s;
+        }
 
-.screen.show {
-  display: block;
-}
+        .tabs span.active {
+            color: #00cfff;
+        }
 
-input, button {
-  width: 100%;
-  margin-bottom: 12px;
-  padding: 12px;
-  border-radius: 8px;
-  border: none;
-}
-button {
-  background: #4fc3f7;
-  font-weight: bold;
-}
-</style>
+        /* تنسيق المدخلات - نفس اللوجن بالظبط */
+        input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            box-sizing: border-box;
+        }
+
+        /* الزراير - نفس اللوجن */
+        .btn-action {
+            width: 100%;
+            padding: 12px;
+            background: #00cfff;
+            border: none;
+            color: #fff;
+            font-size: 16px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-bottom: 10px;
+        }
+
+        .btn-logout {
+            background: none;
+            border: none;
+            color: #ff4d4d;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 14px;
+            text-decoration: underline;
+        }
+
+        .screen { display: none; }
+        .screen.show { display: block; }
+    </style>
 </head>
-
 <body>
 
-<header class="top-bar">
-  <div class="tabs">
-    <span onclick="show('reset')" class="active">RESET PASSWORD</span>
-    <span onclick="show('upload')">UPLOAD FILES</span>
-    <span onclick="show('create')">CREATE ACCOUNT</span>
-  </div>
-</header>
+<div class="admin-card">
+    <div class="logo">
+        <img src="assets/Rectangle-6.png" alt="Mozakra">
+    </div>
 
-<section id="reset" class="screen show">
-  <input placeholder="USER NAME">
-  <input placeholder="NEW PASSWORD" type="password">
-  <button>Reset</button>
-</section>
+    <div class="tabs">
+        <span id="t-reset" class="active" onclick="show('reset')">RESET</span>
+        <span id="t-upload" onclick="show('upload')">UPLOAD</span>
+        <span id="t-create" onclick="show('create')">CREATE</span>
+    </div>
 
-<section id="upload" class="screen">
-  <input type="file" id="pdfFile">
-  <button onclick="uploadPDF()">Upload PDF</button>
-</section>
+    <div id="reset" class="screen show">
+        <h2>Reset Password</h2>
+        <input id="rs-user" type="text" placeholder="Username">
+        <input id="rs-pass" type="password" placeholder="New Password">
+        <button class="btn-action">Update</button>
+    </div>
 
-<section id="create" class="screen">
-  <input id="cu" placeholder="USER NAME">
-  <input id="ce" placeholder="EMAIL">
-  <input id="cp" placeholder="PASSWORD">
-  <button onclick="createAccount()">Create</button>
-</section>
+    <div id="upload" class="screen">
+        <h2>Upload PDF</h2>
+        <input type="file" id="pdfFile">
+        <button class="btn-action" onclick="uploadPDF()">Upload Now</button>
+    </div>
+
+    <div id="create" class="screen">
+        <h2>Create Account</h2>
+        <input id="cu" placeholder="User Name">
+        <input id="ce" placeholder="Email">
+        <input id="cp" type="password" placeholder="Password">
+        <button class="btn-action" onclick="createAccount()">Create</button>
+    </div>
+
+    <button class="btn-logout" onclick="logout()">Logout</button>
+</div>
 
 <script>
-/* ===== AUTH GUARD ===== */
-const token = localStorage.getItem("token");
-const user = JSON.parse(localStorage.getItem("user") || "{}");
+    /* ===== الحماية ===== */
+    const token = localStorage.getItem("token");
+    const user = JSON.parse(localStorage.getItem("user") || "{}");
+    
+    // التأكد من أن المصفوفة موجودة وبتحتوي على admin
+    const isAdmin = user.roles && Array.isArray(user.roles) && user.roles.includes("admin");
 
-if (!token || user.role !== "admin") {
-  window.location.href = "login.html";
+    if (!token || !isAdmin) { 
+        window.location.href = "login.html"; 
+    }
+
+    /* ===== التنقل بين التابات ===== */
+    function show(id) {
+        document.querySelectorAll(".screen").forEach(s => s.classList.remove("show"));
+        document.querySelectorAll(".tabs span").forEach(t => t.classList.remove("active"));
+        
+        const targetScreen = document.getElementById(id);
+        const targetTab = document.getElementById('t-' + id);
+        
+        if (targetScreen) targetScreen.classList.add("show");
+        if (targetTab) targetTab.classList.add("active");
+    }
+
+    function logout() {
+        localStorage.clear();
+        window.location.href = "login.html";
+    }
+
+    /* ===== العمليات (APIs) ===== */
+
+    // 1. رفع ملف PDF
+    async function uploadPDF() {
+        const fileInput = document.getElementById("pdfFile");
+        const file = fileInput.files[0];
+        if (!file) return alert("Please select a PDF file");
+
+        const fd = new FormData();
+        fd.append("pdf", file);
+
+        try {
+            const res = await fetch("https://mozakra-production.up.railway.app/api/upload", {
+                method: "POST",
+                headers: { "Authorization": "Bearer " + token },
+                body: fd
+            });
+            if (res.ok) alert("File Uploaded Successfully! ✅");
+            else alert("Upload Failed! ❌");
+        } catch (err) {
+            alert("Network Error");
+        }
+    }
+
+    // 2. إنشاء حساب جديد
+  async function createAccount() {
+    const cu = document.getElementById("cu").value.trim();
+    const ce = document.getElementById("ce").value.trim();
+    const cp = document.getElementById("cp").value.trim();
+
+    if (!cu || !ce || !cp) return alert("Please fill all fields");
+
+    // أهم المسارات المحتملة بناءً على أن api/list-upload شغال
+    const paths = [
+        "/api/auth/signup",
+        "/api/signup",
+        "/api/user/register",
+        "/api/users/register",
+        "/api/register"
+    ];
+
+    const baseUrl = "https://mozakra-production.up.railway.app";
+    
+    for (let path of paths) {
+        console.log("Testing path: " + path);
+        try {
+            const res = await fetch(baseUrl + path, {
+                method: "POST",
+                headers: { 
+                    "Content-Type": "application/json", 
+                    "Authorization": "Bearer " + token 
+                },
+                body: JSON.stringify({ userName: cu, email: ce, password: cp })
+            });
+
+            if (res.status !== 404) {
+                if (res.ok) {
+                    alert("Success! The correct path is: " + path);
+                    return;
+                } else {
+                    const errorData = await res.json();
+                    alert("Path found (" + path + ") but server said: " + (errorData.message || "Error"));
+                    return;
+                }
+            }
+        } catch (err) {
+            console.error("Error testing " + path, err);
+        }
+    }
+
+    alert("Unfortunately, all common paths returned 404. Check your server routes file.");
 }
 
-/* ===== UI ===== */
-function show(id) {
-  document.querySelectorAll(".screen").forEach(s => s.classList.remove("show"));
-  document.querySelectorAll(".tabs span").forEach(t => t.classList.remove("active"));
-  document.getElementById(id).classList.add("show");
-  event.target.classList.add("active");
-}
+    // 3. تغيير الباسورد (Reset Password)
+    async function resetPassword() {
+        const targetUser = document.getElementById("rs-user").value.trim();
+        const newPass = document.getElementById("rs-pass").value.trim();
 
-/* ===== ACTIONS ===== */
-function uploadPDF() {
-  const file = pdfFile.files[0];
-  if (!file) return alert("Choose PDF");
+        if (!targetUser || !newPass) return alert("Fill username and new password");
 
-  const fd = new FormData();
-  fd.append("pdf", file);
-
-  fetch("https://mozakra-production.up.railway.app/api/upload", {
-    method: "POST",
-    headers: { Authorization: "Bearer " + token },
-    body: fd
-  })
-  .then(r => r.ok ? alert("Uploaded") : alert("Failed"));
-}
-
-function createAccount() {
-  fetch("https://mozakra-production.up.railway.app/api/auth/register", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: "Bearer " + token
-    },
-    body: JSON.stringify({
-      username: cu.value,
-      email: ce.value,
-      password: cp.value
-    })
-  })
-  .then(r => r.ok ? alert("Created") : alert("Failed"));
-}
+        try {
+            // ملاحظة: تأكد من أن هذا الرابط هو الصحيح لتغيير الباسورد في السيرفر بتاعك
+            const res = await fetch("https://mozakra-production.up.railway.app/api/auth/reset-password", {
+                method: "POST",
+                headers: { 
+                    "Content-Type": "application/json", 
+                    "Authorization": "Bearer " + token 
+                },
+                body: JSON.stringify({ userName: targetUser, newPassword: newPass })
+            });
+            if (res.ok) alert("Password Updated! 🔐");
+            else alert("Failed to reset password.");
+        } catch (err) {
+            alert("Network Error");
+        }
+    }
 </script>
-
 </body>
 </html>
