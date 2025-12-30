@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CS Tracks</title>
+
+<style>
+* {
+  box-sizing: border-box;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #5B8FD9, #2E5C8A);
+}
+
+/* ===== APP BAR ===== */
+.app-bar {
+  display: flex;
+  align-items: center;
+  padding: 14px 16px;
+  color: white;
+}
+
+.app-bar h2 {
+  flex: 1;
+  text-align: center;
+  margin: 0;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.back-btn {
+  cursor: pointer;
+  font-size: 20px;
+}
+
+/* ===== LIST ===== */
+.container {
+  padding: 20px;
+}
+
+.track-card {
+  background: rgba(255, 255, 255, 0.92);
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  transition: transform .15s ease, box-shadow .15s ease;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.track-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+}
+
+.icon-box {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: rgba(91,143,217,0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  color: #5B8FD9;
+}
+
+.track-info {
+  flex: 1;
+}
+
+.track-info h4 {
+  margin: 0;
+  font-size: 16px;
+  color: #2E5C8A;
+}
+
+.track-info span {
+  font-size: 12px;
+  color: #777;
+}
+
+.arrow {
+  background: rgba(91,143,217,0.12);
+  border-radius: 8px;
+  padding: 8px;
+  color: #5B8FD9;
+  font-size: 16px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- APP BAR -->
+<div class="app-bar">
+  <div class="back-btn" onclick="history.back()">←</div>
+  <h2>CS Tracks</h2>
+  <div style="width:24px"></div>
+</div>
+
+<!-- LIST -->
+<div class="container" id="tracksList"></div>
+
+<script>
+const csTracks = [
+  { name: "Computer Science", url: "https://roadmap.sh/computer-science", icon: "💻" },
+  { name: "Software Engineering", url: "https://roadmap.sh/software-engineer", icon: "🛠️" },
+  { name: "Frontend Developer", url: "https://roadmap.sh/frontend", icon: "🌐" },
+  { name: "Backend Developer", url: "https://roadmap.sh/backend", icon: "🗄️" },
+  { name: "Mobile Developer (Flutter)", url: "https://roadmap.sh/flutter", icon: "📱" },
+  { name: "Android Developer", url: "https://roadmap.sh/android", icon: "🤖" },
+  { name: "iOS Developer", url: "https://roadmap.sh/ios", icon: "🍎" },
+  { name: "Data Scientist", url: "https://roadmap.sh/data-scientist", icon: "📊" },
+  { name: "AI / Machine Learning", url: "https://roadmap.sh/ai", icon: "🧠" },
+  { name: "DevOps Engineer", url: "https://roadmap.sh/devops", icon: "☁️" }, 
+  { name: "Cyber Security", url: "https://roadmap.sh/cyber-security", icon: "🔐" }
+];
+
+const list = document.getElementById("tracksList");
+
+csTracks.forEach(track => {
+  const card = document.createElement("div");
+  card.className = "track-card";
+  card.onclick = () => window.open(track.url, "_blank");
+
+  card.innerHTML = `
+    <div class="icon-box">${track.icon}</div>
+    <div class="track-info">
+      <h4>${track.name}</h4>
+      <span>View roadmap</span>
+    </div>
+    <div class="arrow">➜</div>
+  `;
+
+  list.appendChild(card);
+});
+</script>
+
+</body>

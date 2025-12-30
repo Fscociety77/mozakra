@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CS Department Regulation</title>
+
+<!-- PDF.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+
+<style>
+body {
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif;
+  background: #6f93db;
+}
+
+header {
+  padding: 18px 40px;
+  background: #0f172a;
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.container {
+  margin: 20px;
+  background: white;
+  border-radius: 16px;
+  padding: 16px;
+}
+
+#pdfViewer canvas {
+  display: block;
+  margin: 0 auto 20px;
+  box-shadow: 0 4px 12px rgba(0,0,0,.15);
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  CS Department Regulation
+</header>
+
+<div class="container">
+  <div id="status">Loading regulation...</div>
+  <div id="pdfViewer"></div>
+</div>
+
+<script>
+/* ================= CONFIG ================= */
+const API_URL = "https://mozakra-production.up.railway.app/api/list";
+const token =
+  localStorage.getItem("token") ||
+  localStorage.getItem("auth_token");
+
+if (!token) {
+  alert("Please login first");
+  window.location.href = "login.html";
+}
+
+/* ================= FETCH PDF URL ================= */
+fetch(API_URL, {
+  headers: {
+    "Authorization": "Bearer " + token,
+    "Accept": "application/json"
+  }
+})
+.then(res => {
+  if (!res.ok) throw new Error("Unauthorized");
+  return res.json();
+})
+.then(data => {
+  const lists = data.lists || [];
+
+  const regulation = lists.find(item =>
+    item.name &&
+    item.name.toLowerCase().includes("regulation")
+  );
+
+  if (!regulation || !regulation.pdfUrl) {
+    throw new Error("Regulation not found");
+  }
+
+  loadPdf(regulation.pdfUrl);
+})
+.catch(err => {
+  document.getElementById("status").innerText =
+    "❌ " + err.message;
+});
+
+/* ================= LOAD PDF INSIDE PAGE ================= */
+pdfjsLib.GlobalWorkerOptions.workerSrc =
+  "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js";
+
+function loadPdf(pdfUrl) {
+  document.getElementById("status").innerText = "";
+
+  pdfjsLib.getDocument(pdfUrl).promise.then(pdf => {
+    const viewer = document.getElementById("pdfViewer");
+
+    for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+      pdf.getPage(pageNum).then(page => {
+        const viewport = page.getViewport({ scale: 1.4 });
+
+        const canvas = document.createElement("canvas");
+        const context = canvas.getContext("2d");
+
+        canvas.height = viewport.height;
+        canvas.width = viewport.width;
+
+        page.render({
+          canvasContext: context,
+          viewport: viewport
+        });
+
+        viewer.appendChild(canvas);
+      });
+    }
+  }).catch(err => {
+    document.getElementById("status").innerText =
+      "❌ Failed to load PDF";
+  });
+}
+</script>
+
+</body>
+</html>
