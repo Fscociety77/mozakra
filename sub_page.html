@@ -16,39 +16,53 @@
   margin: 60px 0 100px;
 }
 
+.about-cs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 30px;
+  padding: 0 60px;
+  margin: 60px 0 100px;
+}
+
 .about-card {
-  width: 80%;
-  max-width: 900px;
   background: linear-gradient(135deg, #acb3b4, #4aa3ff);
-  padding: 35px 40px;
+  padding: 35px;
   border-radius: 16px;
   text-decoration: none;
   color: white;
   box-shadow: 0 15px 40px rgba(0,0,0,0.15);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;  
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.about-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 25px 50px rgba(0,0,0,0.25);
 }
 
 .about-card h2 {
-  font-size: 28px;
+  font-size: 26px;
   margin-bottom: 15px;
 }
 
 .about-card p {
   font-size: 15px;
-  opacity: 0.95;
   line-height: 1.6;
+  opacity: 0.95;
 }
 
 .about-card span {
   display: inline-block;
-  margin-top: 18px;
+  margin-top: 20px;
   font-weight: 700;
 }
 
-.about-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+/* Responsive */
+@media (max-width: 900px) {
+  .about-cs {
+    grid-template-columns: 1fr;
+  }
 }
+
 
     * {
       margin: 0;
@@ -85,14 +99,6 @@
       text-decoration: none;
       color: white;
       font-weight: 600;
-    }
-
-    .btn-join {
-      background: linear-gradient(135deg, #acb3b4, #4aa3ff);
-      padding: 8px 16px;
-      border-radius: 8px;
-      font-weight: 700;
-      color: white;
     }
 
     /* Quote */
@@ -163,8 +169,6 @@
     <nav class="nav-links">
       <a href="index.html">Home</a>
       <a href="chat.html">Mozakra AI</a>
-      <a href="course.html" class="btn-join">Join US</a>
-        <a href="note.html">notes</a>
         <a href="admin.html">admin</a>
     </nav>
   </header>
@@ -176,65 +180,11 @@
       Focus today, shine tomorrow —  
       Small steps in study, big steps in success.
     </p>
-  </section>
 
-  <!-- Images -->
-  <section class="images">
-    <div class="image-grid">
-
-      <div class="image-item">
-        <a href="https://www.youtube.com/playlist?list=PLxIvc-MGOs6gkSl_PPAVJpebKDLo-ijEC" target="_blank">
-          <img src="assets/calcus.png" onerror="this.parentElement.style.display='none'">
-        </a>
-      </div>
-
-      <div class="image-item">
-        <a href="https://www.youtube.com/playlist?list=PLCXxeGQt1gBwgIJm6VGCBYJ6BgLTtnTeg" target="_blank">
-          <img src="assets/OIP.webp" onerror="this.parentElement.style.display='none'">
-        </a>
-      </div>
-
-      <div class="image-item">
-        <a href="https://www.youtube.com/playlist?list=PLxIvc-MGOs6gZlMVYOOEtUHJmfUquCjwz" target="_blank">
-          <img src="assets/math.png" onerror="this.parentElement.style.display='none'">
-        </a>
-      </div>
-
-      <div class="image-item">
-        <a href="https://www.youtube.com/playlist?list=PLCXxeGQt1gBx_DWGDSjPmrpWZrjZgrH9b" target="_blank">
-          <img src="assets/physics.png" onerror="this.parentElement.style.display='none'">
-        </a>
-      </div>
-
-      <div class="image-item">
-        <a href="https://youtu.be/owCqVRbZlbg" target="_blank">
-          <img src="assets/data-structure.png" onerror="this.parentElement.style.display='none'">
-        </a>
-      </div>
-
-      <div class="image-item">
-        <a href="https://youtu.be/61yz7sVvQgs" target="_blank">
-          <img src="assets/ai.png" onerror="this.parentElement.style.display='none'">
-        </a>
-      </div>
-
-      <div class="image-item">
-        <a href="https://www.youtube.com/watch?v=klGULy6aQvo" target="_blank">
-          <img src="assets/english.png" onerror="this.parentElement.style.display='none'">
-        </a>
-      </div>
-
-      <div class="image-item">
-        <a href="https://www.youtube.com/playlist?list=PLCXxeGQt1gBwdHRJ8fCjtqiwQbqytx0Cm" target="_blank">
-          <img src="assets/Rectangle4.png" onerror="this.parentElement.style.display='none'">
-        </a>
-      </div>
-
-    </div>
-  </section>
-<!-- About CS Department -->
+<!-- About Section -->
 <section class="about-cs">
-  <a href="cs_department.html" class="about-card">
+
+  <a href="about.html" class="about-card">
     <h2>About CS Department</h2>
     <p>
       Learn more about the Computer Science department, its courses,
@@ -242,8 +192,23 @@
     </p>
     <span>Explore →</span>
   </a>
+
+  <a href="trakc.html" class="about-card">
+    <h2>CS Tracks</h2>
+    <p>
+      Discover different CS tracks, skills required,
+      and real-world opportunities.
+    </p>
+    <span>Explore →</span>
+  </a>
+
+  <a href="cs_regulation.html" class="about-card">
+    <h2>CS Regulations</h2>
+    <p>
+      Learn about department rules, grading system,
+      and academic regulations.
+    </p>
+    <span>Explore →</span>
+  </a>
+
 </section>
-// في بداية sub_page.html
- </script>
-</body>
-</html>
