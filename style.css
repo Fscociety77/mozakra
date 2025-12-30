@@ -108,7 +108,7 @@ nav a{
 }
 
 .btn-join{
-  background:linear-gradient(180deg,#2de6ff,#03d0ff);
+  background:linear-gradient(135deg, #acb3b4, #4aa3ff);
   padding:10px 16px;
   border-radius:10px;
   color:#042033;
@@ -161,7 +161,7 @@ nav a{
   z-index: 10;
 }
 .cta-primary{
-  background:linear-gradient(180deg,#27e6ff,#08c6f6);
+  background:linear-gradient(135deg, #acb3b4, #4aa3ff);
   color:#042033;
 }
 .cta-secondary{
@@ -202,7 +202,7 @@ nav a{
   top:40px;
   width:80px;
   height:80px;
-  background:linear-gradient(180deg,#28f0ff,#00c6ff);
+  background:linear-gradient(135deg, #acb3b4, #4aa3ff);
   border-radius:14px;
   box-shadow:0 10px 30px rgba(3,208,255,0.12);
   z-index: 1;
