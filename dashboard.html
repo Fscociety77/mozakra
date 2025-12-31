@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mozakra - Admin Dashboard</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&family=Segoe+UI:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --main-blue: #6f93db;
+            --accent-blue: #00cfff;
+            --white: #ffffff;
+            --text-gray: #888;
+            --bg-light: #f4f7fe;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        
+        body { 
+            background-color: var(--main-blue); 
+            height: 100vh; 
+            display: flex; 
+            overflow: hidden;
+        }
+
+        /* --- Navbar (Right) --- */
+        .navbar {
+            width: 240px;
+            background: var(--white);
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 40px 20px;
+            box-shadow: -5px 0 15px rgba(0,0,0,0.1);
+            order: 2;
+        }
+
+        .navbar .logo img { width: 120px; margin-bottom: 40px; align-self: center; }
+
+        .nav-link {
+            text-decoration: none;
+            color: #bbb;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 15px;
+            margin-bottom: 5px;
+            transition: 0.3s;
+            text-align: right;
+            border-radius: 10px;
+        }
+
+        .nav-link.active { color: var(--accent-blue); background: #f0f7ff; }
+        .nav-link:hover:not(.active) { color: var(--main-blue); background: #f9f9f9; }
+
+        /* --- Main Content --- */
+        .main-content {
+            flex: 1;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            order: 1;
+            overflow-y: auto;
+        }
+
+        .welcome-section {
+            color: var(--white);
+            text-align: left;
+        }
+
+        .welcome-section h1 { font-family: 'Montserrat', sans-serif; font-size: 28px; margin-bottom: 5px; }
+        .welcome-section p { font-size: 14px; opacity: 0.9; }
+
+        /* --- Stats Cards --- */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .stat-card {
+            background: var(--white);
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            transition: 0.3s;
+        }
+
+        .stat-card:hover { transform: translateY(-5px); }
+        .stat-card h3 { color: var(--text-gray); font-size: 12px; text-transform: uppercase; margin-bottom: 10px; }
+        .stat-card .value { font-family: 'Montserrat', sans-serif; font-size: 24px; color: var(--main-blue); }
+
+        /* --- Quick Actions Card --- */
+        .actions-card {
+            background: var(--white);
+            border-radius: 25px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        }
+
+        .actions-card h2 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #333;
+            border-bottom: 2px solid #f0f0f0;
+            padding-bottom: 10px;
+        }
+
+        .action-btns {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
+        .quick-btn {
+            padding: 20px;
+            background: var(--bg-light);
+            border: none;
+            border-radius: 15px;
+            cursor: pointer;
+            text-align: center;
+            transition: 0.3s;
+        }
+
+        .quick-btn:hover { background: var(--accent-blue); color: white; }
+        .quick-btn i { font-size: 20px; display: block; margin-bottom: 10px; }
+        .quick-btn span { font-weight: bold; font-size: 13px; }
+
+        /* Logout */
+        .logout-link { margin-top: auto; color: #ff4d4d; font-weight: bold; text-align: center; cursor: pointer; font-size: 12px; }
+
+    </style>
+</head>
+<body>
+
+    <div class="main-content">
+        <div class="welcome-section">
+            <h1 id="adminName">Welcome, Admin</h1>
+            <p>Here is what's happening in Mozakra today.</p>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <h3>Total Students</h3>
+                <div class="value" id="userCount">...</div>
+            </div>
+            <div class="stat-card">
+                <h3>Courses Uploaded</h3>
+                <div class="value" id="courseCount">...</div>
+            </div>
+            <div class="stat-card" style="border-right: 4px solid var(--accent-blue);">
+                <h3>Active Sessions</h3>
+                <div class="value">24</div>
+            </div>
+        </div>
+
+        <div class="actions-card">
+            <h2>Quick Management</h2>
+            <div class="action-btns">
+                <button class="quick-btn" onclick="location.href='admin.html'">
+                    <span>Manage Users</span>
+                </button>
+                <button class="quick-btn" onclick="location.href='admin.html'">
+                    <span>Upload Content</span>
+                </button>
+                <button class="quick-btn" onclick="location.href='notes.html'">
+                    <span>Check Notes</span>
+                </button>
+                <button class="quick-btn" onclick="location.href='profile.html'">
+                    <span>Edit Profile</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <nav class="navbar">
+        <div class="logo">
+            <img src="assets/Rectangle-6.png" alt="Mozakra">
+        </div>
+        <a href="#" class="nav-link active">Dashboard</a>
+        <a href="about.html" class="nav-link">Courses</a>
+        <a href="notes.html" class="nav-link">Notes</a>
+        <a href="profile.html" class="nav-link">Profile</a>
+        <div class="logout-link" onclick="logout()">LOGOUT</div>
+    </nav>
+
+    <script>
+        const API_BASE = "https://mozakra-production.up.railway.app/api";
+        const token = localStorage.getItem("token");
+
+        if (!token) window.location.href = "login.html";
+
+        function logout() { localStorage.clear(); window.location.href = "login.html"; }
+
+        // وظيفة لجلب إحصائيات حقيقية من السيرفر
+        async function fetchStats() {
+            try {
+                // جلب الكورسات
+                const courseRes = await fetch(`${API_BASE}/course`, {
+                    headers: { "Authorization": `Bearer ${token}` }
+                });
+                const courses = await courseRes.json();
+                document.getElementById("courseCount").innerText = courses.length || 0;
+
+                // هنا يمكنك إضافة fetch لجلب عدد المستخدمين إذا كان الـ API يدعم ذلك
+                document.getElementById("userCount").innerText = "150+"; 
+            } catch (e) {
+                console.error("Stats fetch failed");
+            }
+        }
+
+        window.onload = fetchStats;
+    </script>
+</body>
+</html>
