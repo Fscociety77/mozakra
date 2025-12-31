@@ -20,7 +20,7 @@
         .admin-card { 
             background: var(--white); 
             width: 100%; 
-            max-width: 650px; 
+            max-width: 600px; 
             min-height: 700px; 
             padding: 40px; 
             border-radius: 45px; 
@@ -32,18 +32,18 @@
         
         .logo img { width: 140px; margin-bottom: 25px; }
         
-        /* التبويبات بنظام مسارات GitHub */
+        /* Tabs System */
         .admin-tabs { display: flex; justify-content: center; gap: 15px; margin-bottom: 25px; border-bottom: 1px solid #eee; padding-bottom: 15px; }
         .admin-tabs span { cursor: pointer; font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 800; color: #ccc; letter-spacing: 1px; transition: 0.3s; padding: 5px; }
-        .admin-tabs span.active { color: var(--accent-blue); border-bottom: 2px solid var(--accent-blue); }
+        .admin-tabs span.active { color: var(--accent-blue); border-bottom: 2px solid var(--accent-blue); padding-bottom: 13px; }
         
-        /* Stats Dashboard */
+        /* Dashboard Stats */
         .dash-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
         .dash-box { background: var(--gray-light); padding: 25px; border-radius: 20px; border: 1px solid #edf2f7; }
         .dash-box h4 { font-size: 10px; color: #a0aec0; text-transform: uppercase; }
         .dash-box p { font-size: 35px; font-weight: 800; color: var(--main-blue); }
 
-        /* Checklist / Table */
+        /* Checklist / Table Style */
         .table-wrapper { flex: 1; overflow-y: auto; border-radius: 15px; background: var(--gray-light); padding: 10px; max-height: 350px; }
         table { width: 100%; border-collapse: collapse; }
         th { text-align: left; font-size: 9px; text-transform: uppercase; color: #aaa; padding: 10px; border-bottom: 1px solid #ddd; }
@@ -57,7 +57,7 @@
         .screen { display: none; flex-direction: column; flex: 1; }
         .screen.show { display: flex; }
 
-        .logout-link { color: var(--danger); font-size: 11px; font-weight: bold; margin-top: 25px; cursor: pointer; text-transform: uppercase; }
+        .logout-link { color: var(--danger); font-size: 11px; font-weight: bold; margin-top: 25px; cursor: pointer; text-transform: uppercase; text-decoration: none; display: block; }
     </style>
 </head>
 <body>
@@ -66,7 +66,7 @@
     <div class="logo"><img src="assets/Rectangle-6.png" alt="Mozakra"></div>
 
     <div class="admin-tabs">
-        <span id="t-dash" class="active" onclick="show('dash')">DASH</span>
+        <span id="t-dash" onclick="show('dash')">DASH</span>
         <span id="t-reset" onclick="show('reset')">PASS</span>
         <span id="t-upload" onclick="show('upload')">ADD FILE</span>
         <span id="t-manage" onclick="show('manage'); loadFiles();">FILES</span>
@@ -82,13 +82,13 @@
     </div>
 
     <div id="notes" class="screen">
-        <input type="text" class="search-bar" placeholder="Search notes..." id="searchInput" onkeyup="filterNotes()">
+        <input type="text" class="search-bar" placeholder="Search in notes..." id="searchInput" onkeyup="filterNotes()">
         <div class="table-wrapper">
             <table>
                 <thead><tr><th>Date</th><th>Content</th><th>Status</th><th>Action</th></tr></thead>
                 <tbody id="adminNotesList"></tbody>
             </table>
-            <div id="noNotes" style="display:none; text-align:center; padding:20px; color:#aaa;">No notes found.</div>
+            <div id="noNotes" style="display:none; text-align:center; padding:30px; color:#aaa;">No notes found.</div>
         </div>
         <button class="btn-action" style="background: #718096;" onclick="fetchAllNotes()">Refresh List</button>
     </div>
@@ -102,50 +102,56 @@
 
     <div id="upload" class="screen">
         <input type="text" id="course-name-input" placeholder="Course Name">
-        <input type="file" id="pdfFile" accept=".pdf" style="margin-bottom:15px;">
+        <input type="file" id="pdfFile" accept=".pdf" style="margin-bottom:15px; border:none; background:none;">
         <button class="btn-action" onclick="uploadPDF()">Upload</button>
     </div>
 
     <div id="manage" class="screen">
         <div class="table-wrapper">
             <table>
-                <thead><tr><th>Course Name</th><th>Action</th></tr></thead>
+                <thead><tr><th style="width:70%">Course Name</th><th>Action</th></tr></thead>
                 <tbody id="files-list"></tbody>
             </table>
         </div>
-        <button class="btn-action" style="background: #718096;" onclick="loadFiles()">Refresh Files</button>
+        <button class="btn-action" style="background: #718096; margin-top:10px;" onclick="loadFiles()">Refresh Files</button>
     </div>
 
-    <div class="logout-link" onclick="logout()">Logout System</div>
+    <div class="logout-link" onclick="logout()">LOGOUT SYSTEM</div>
 </div>
 
 <script>
     const API_BASE = "https://mozakra-production.up.railway.app/api";
-    
-    // حل مشكلة التوكن في GitHub
-    const getAuthHeader = () => {
+
+    // دالة لجلب التوكن لضمان معالجة خطأ 401
+    const getHeaders = () => {
         const token = localStorage.getItem("token");
-        return token ? { "Authorization": `Bearer ${token}` } : {};
+        return { 
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json"
+        };
     };
 
     function show(id) {
         document.querySelectorAll(".screen").forEach(s => s.classList.remove("show"));
         document.querySelectorAll(".admin-tabs span").forEach(t => t.classList.remove("active"));
-        document.getElementById(id).classList.add("show");
+        const target = document.getElementById(id);
+        if(target) target.classList.add("show");
         document.getElementById('t-' + id).classList.add("active");
         if(id === 'dash') updateDashboard();
     }
 
     async function updateDashboard() {
         try {
-            const resC = await fetch(`${API_BASE}/course`, { headers: getAuthHeader() });
-            const resN = await fetch(`${API_BASE}/get-notes`, { headers: getAuthHeader() });
+            const [resC, resN] = await Promise.all([
+                fetch(`${API_BASE}/course`, { headers: getHeaders() }),
+                fetch(`${API_BASE}/get-notes`, { headers: getHeaders() })
+            ]);
             const courses = await resC.json();
             const notesData = await resN.json();
             const notes = notesData.notes || notesData.data || [];
             document.getElementById("count-courses").innerText = Array.isArray(courses) ? courses.length : (courses.courses?.length || 0);
             document.getElementById("count-notes").innerText = notes.length;
-        } catch (e) { console.error("Dash Error", e); }
+        } catch (e) { console.error(e); }
     }
 
     async function fetchAllNotes() {
@@ -153,7 +159,11 @@
         const empty = document.getElementById("noNotes");
         list.innerHTML = "<tr><td colspan='4' style='text-align:center'>Loading...</td></tr>";
         try {
-            const res = await fetch(`${API_BASE}/get-notes`, { headers: getAuthHeader() });
+            const res = await fetch(`${API_BASE}/get-notes`, { headers: getHeaders() });
+            
+            // التعامل مع انتهاء الجلسة 401
+            if(res.status === 401) { logout(); return; }
+
             const data = await res.json();
             const notes = data.notes || data.data || [];
             list.innerHTML = "";
@@ -161,17 +171,23 @@
             empty.style.display = "none";
             notes.forEach(n => {
                 const row = document.createElement("tr");
-                row.innerHTML = `<td>${new Date(n.createdAt).toLocaleDateString()}</td><td style="max-width:180px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${n.description}</td><td><span class="status-badge">SAVED</span></td><td><button class="delete-btn" onclick="deleteNote('${n._id}')">Del</button></td>`;
+                row.innerHTML = `
+                    <td>${new Date(n.createdAt).toLocaleDateString()}</td>
+                    <td style="max-width:180px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${n.description}</td>
+                    <td><span class="status-badge">SAVED</span></td>
+                    <td><button class="delete-btn" onclick="deleteNote('${n._id}')">Del</button></td>
+                `;
                 list.appendChild(row);
             });
-        } catch (e) { list.innerHTML = "<tr><td colspan='4'>Error connecting...</td></tr>"; }
+        } catch (e) { list.innerHTML = "<tr><td colspan='4' style='text-align:center'>Connection Error</td></tr>"; }
     }
 
+    // باقي دوال الحذف والرفع (loadFiles, uploadPDF, deleteNote, deleteFile)
     async function loadFiles() {
         const list = document.getElementById("files-list");
         list.innerHTML = "<tr><td colspan='2' style='text-align:center;'>Loading...</td></tr>";
         try {
-            const res = await fetch(`${API_BASE}/course`, { headers: getAuthHeader() });
+            const res = await fetch(`${API_BASE}/course`, { headers: getHeaders() });
             const data = await res.json();
             const courses = Array.isArray(data) ? data : (data.courses || []);
             list.innerHTML = "";
@@ -183,30 +199,23 @@
         } catch (e) { list.innerHTML = "<tr><td colspan='2'>Error</td></tr>"; }
     }
 
-    async function uploadPDF() {
-        const name = document.getElementById("course-name-input").value;
-        const file = document.getElementById("pdfFile").files[0];
-        if(!file || !name) return alert("All fields required");
-        const formData = new FormData();
-        formData.append("pdf", file);
-        formData.append("courseName", name);
-        const res = await fetch(`${API_BASE}/upload`, { method: "POST", headers: getAuthHeader(), body: formData });
-        if(res.ok) { alert("Success!"); show('manage'); loadFiles(); } else { alert("Upload Failed"); }
-    }
-
-    async function deleteFile(id) { if(confirm("Delete?")) { await fetch(`${API_BASE}/course/${id}`, { method: "DELETE", headers: getAuthHeader() }); loadFiles(); } }
-    async function deleteNote(id) { if(confirm("Delete?")) { await fetch(`${API_BASE}/note/${id}`, { method: "DELETE", headers: getAuthHeader() }); fetchAllNotes(); } }
+    async function deleteNote(id) { if(confirm("Delete?")) { await fetch(`${API_BASE}/note/${id}`, { method: "DELETE", headers: getHeaders() }); fetchAllNotes(); updateDashboard(); } }
+    async function deleteFile(id) { if(confirm("Delete?")) { await fetch(`${API_BASE}/course/${id}`, { method: "DELETE", headers: getHeaders() }); loadFiles(); updateDashboard(); } }
 
     function filterNotes() {
         const val = document.getElementById("searchInput").value.toLowerCase();
         document.querySelectorAll("#adminNotesList tr").forEach(row => row.style.display = row.innerText.toLowerCase().includes(val) ? "" : "none");
     }
 
-    function logout() { localStorage.clear(); window.location.replace("login.html"); }
+    function logout() { 
+        localStorage.clear(); 
+        window.location.replace("login.html"); 
+    }
 
     window.onload = () => {
         if(!localStorage.getItem("token")) window.location.replace("login.html");
         updateDashboard();
+        show('dash');
     };
 </script>
 </body>
