@@ -4,60 +4,51 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Panel - Mozakra</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Segoe+UI:wght@400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --main-blue: #6f93db;
             --accent-blue: #00cfff;
             --danger: #ff4d4d;
             --white: #ffffff;
-            --gray-light: #f4f7fe;
+            --gray-light: #f8fbff;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
         body { background-color: var(--main-blue); min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px; }
         
-        .admin-card { 
-            background: var(--white); 
-            width: 100%; 
-            max-width: 600px; 
-            min-height: 700px; 
-            padding: 40px; 
-            border-radius: 45px; 
-            text-align: center; 
-            box-shadow: 0 35px 80px rgba(0,0,0,0.3); 
-            display: flex; 
-            flex-direction: column; 
-        }
+        .admin-card { background: var(--white); width: 100%; max-width: 600px; min-height: 650px; padding: 40px; border-radius: 40px; text-align: center; box-shadow: 0 35px 80px rgba(0,0,0,0.3); display: flex; flex-direction: column; }
         
-        .logo img { width: 140px; margin-bottom: 25px; }
+        .logo img { width: 160px; margin-bottom: 30px; }
         
-        /* Tabs System */
-        .admin-tabs { display: flex; justify-content: center; gap: 15px; margin-bottom: 25px; border-bottom: 1px solid #eee; padding-bottom: 15px; }
-        .admin-tabs span { cursor: pointer; font-family: 'Montserrat', sans-serif; font-size: 10px; font-weight: 800; color: #ccc; letter-spacing: 1px; transition: 0.3s; padding: 5px; }
-        .admin-tabs span.active { color: var(--accent-blue); border-bottom: 2px solid var(--accent-blue); padding-bottom: 13px; }
+        .tabs { display: flex; justify-content: center; gap: 20px; margin-bottom: 35px; border-bottom: 2px solid #f0f4f8; padding-bottom: 15px; }
+        .tabs span { font-size: 11px; font-weight: 800; cursor: pointer; color: #cbd5e0; transition: 0.3s; text-transform: uppercase; padding: 5px; }
+        .tabs span.active { color: var(--accent-blue); border-bottom: 4px solid var(--accent-blue); padding-bottom: 11px; }
         
-        /* Dashboard Stats */
-        .dash-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-bottom: 20px; }
-        .dash-box { background: var(--gray-light); padding: 25px; border-radius: 20px; border: 1px solid #edf2f7; }
-        .dash-box h4 { font-size: 10px; color: #a0aec0; text-transform: uppercase; }
-        .dash-box p { font-size: 35px; font-weight: 800; color: var(--main-blue); }
+        .dash-grid { display: grid; grid-template-columns: 1fr; gap: 20px; margin-bottom: 30px; }
+        .dash-box { background: var(--gray-light); padding: 30px; border-radius: 25px; border: 2px solid #edf2f7; }
+        .dash-box h4 { font-size: 11px; color: #a0aec0; text-transform: uppercase; margin-bottom: 10px; }
+        .dash-box p { font-size: 40px; font-weight: 800; color: var(--main-blue); }
 
-        /* Checklist / Table Style */
-        .table-wrapper { flex: 1; overflow-y: auto; border-radius: 15px; background: var(--gray-light); padding: 10px; max-height: 350px; }
+        .table-wrapper { flex: 1; overflow-y: auto; border-radius: 20px; background: var(--gray-light); padding: 10px; max-height: 350px; border: 1px solid #eee; }
         table { width: 100%; border-collapse: collapse; }
-        th { text-align: left; font-size: 9px; text-transform: uppercase; color: #aaa; padding: 10px; border-bottom: 1px solid #ddd; }
-        td { padding: 12px; font-size: 13px; color: #555; border-bottom: 1px solid #eee; text-align: left; }
+        td { padding: 15px; font-size: 14px; color: #555; border-bottom: 1px solid #eee; text-align: left; }
 
-        .search-bar { background: var(--gray-light); border: 1px solid #eee; padding: 12px; border-radius: 12px; width: 100%; font-size: 13px; margin-bottom: 15px; outline: none; }
-        .status-badge { background: #e7f9ff; color: var(--accent-blue); padding: 3px 8px; border-radius: 6px; font-weight: bold; font-size: 9px; }
-        .delete-btn { background: #fff0f0; color: var(--danger); border: none; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-size: 10px; font-weight: bold; }
+        .delete-btn { background: #fff0f0; color: var(--danger); border: none; padding: 8px 15px; border-radius: 8px; cursor: pointer; font-size: 11px; font-weight: bold; }
         
-        .btn-action { width: 100%; padding: 15px; background: var(--accent-blue); border: none; color: #fff; font-size: 16px; border-radius: 15px; font-weight: 800; cursor: pointer; margin-top: 10px; }
-        .screen { display: none; flex-direction: column; flex: 1; }
-        .screen.show { display: flex; }
+        input { width: 100%; padding: 18px; margin-bottom: 20px; border-radius: 15px; border: 2px solid #edf2f7; outline: none; font-size: 15px; background: #fbfbfb; }
+        
+        .btn-action { width: 100%; padding: 18px; background: var(--accent-blue); border: none; color: #fff; font-size: 16px; border-radius: 18px; font-weight: bold; cursor: pointer; transition: 0.3s; margin-bottom: 10px; }
+        .btn-secondary { background: #718096; }
+        
+        /* زر الملاحظات الخارجي */
+        .btn-notes-link { background: #4a5568; color: white; text-decoration: none; display: block; padding: 18px; border-radius: 18px; font-weight: bold; font-size: 16px; margin-bottom: 10px; }
 
-        .logout-link { color: var(--danger); font-size: 11px; font-weight: bold; margin-top: 25px; cursor: pointer; text-transform: uppercase; text-decoration: none; display: block; }
+        .screen { display: none; animation: fadeIn 0.4s ease; }
+        .screen.show { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .btn-logout { background: none; border: none; color: var(--danger); font-weight: bold; cursor: pointer; font-size: 14px; margin-top: auto; padding-top: 20px; text-transform: uppercase; }
     </style>
 </head>
 <body>
@@ -65,158 +56,136 @@
 <div class="admin-card">
     <div class="logo"><img src="assets/Rectangle-6.png" alt="Mozakra"></div>
 
-    <div class="admin-tabs">
-        <span id="t-dash" onclick="show('dash')">DASH</span>
-        <span id="t-reset" onclick="show('reset')">PASS</span>
-        <span id="t-upload" onclick="show('upload')">ADD FILE</span>
-        <span id="t-manage" onclick="show('manage'); loadFiles();">FILES</span>
-        <span id="t-notes" onclick="show('notes'); fetchAllNotes();">NOTES</span>
+    <div class="tabs">
+        <span id="t-dash" class="active" onclick="show('dash')">Dashboard</span>
+        <span id="t-upload" onclick="show('upload')">Add File</span>
+        <span id="t-manage" onclick="show('manage'); loadFiles();">Library</span>
+        <span id="t-reset" onclick="show('reset')">Settings</span>
     </div>
 
     <div id="dash" class="screen show">
         <div class="dash-grid">
-            <div class="dash-box"><h4>Courses</h4><p id="count-courses">0</p></div>
-            <div class="dash-box"><h4>Notes</h4><p id="count-notes">0</p></div>
+            <div class="dash-box"><h4>Total Courses</h4><p id="count-courses">0</p></div>
         </div>
-        <button class="btn-action" style="background: var(--main-blue);" onclick="show('upload')">New Material</button>
-    </div>
-
-    <div id="notes" class="screen">
-        <input type="text" class="search-bar" placeholder="Search in notes..." id="searchInput" onkeyup="filterNotes()">
-        <div class="table-wrapper">
-            <table>
-                <thead><tr><th>Date</th><th>Content</th><th>Status</th><th>Action</th></tr></thead>
-                <tbody id="adminNotesList"></tbody>
-            </table>
-            <div id="noNotes" style="display:none; text-align:center; padding:30px; color:#aaa;">No notes found.</div>
-        </div>
-        <button class="btn-action" style="background: #718096;" onclick="fetchAllNotes()">Refresh List</button>
+        
+        <a href="checknotes.html" class="btn-notes-link">📋 Check Student Notes</a>
+        
+        <button class="btn-action" style="background: var(--main-blue);" onclick="show('upload')">➕ Upload New Material</button>
     </div>
 
     <div id="reset" class="screen">
-        <input id="up-user" type="text" placeholder="Admin User">
+        <h3>Security Settings</h3><br>
+        <input id="up-user" type="text" placeholder="Admin Email">
         <input id="up-pass" type="password" placeholder="New Password">
         <input id="up-repass" type="password" placeholder="Confirm Password">
         <button class="btn-action" onclick="updatePassword()">Update Account</button>
     </div>
 
     <div id="upload" class="screen">
-        <input type="text" id="course-name-input" placeholder="Course Name">
-        <input type="file" id="pdfFile" accept=".pdf" style="margin-bottom:15px; border:none; background:none;">
-        <button class="btn-action" onclick="uploadPDF()">Upload</button>
+        <h3>Publish New Course</h3><br>
+        <input type="text" id="course-name-input" placeholder="Enter Course Name">
+        <input type="file" id="pdfFile" accept=".pdf" style="border:none; background:none;">
+        <button class="btn-action" onclick="uploadPDF()">Upload to Server</button>
     </div>
 
     <div id="manage" class="screen">
         <div class="table-wrapper">
             <table>
-                <thead><tr><th style="width:70%">Course Name</th><th>Action</th></tr></thead>
                 <tbody id="files-list"></tbody>
             </table>
         </div>
-        <button class="btn-action" style="background: #718096; margin-top:10px;" onclick="loadFiles()">Refresh Files</button>
+        <button class="btn-action btn-secondary" style="margin-top:15px;" onclick="loadFiles()">Refresh List</button>
     </div>
 
-    <div class="logout-link" onclick="logout()">LOGOUT SYSTEM</div>
+    <button class="btn-logout" onclick="logout()">LOGOUT SYSTEM</button>
 </div>
 
 <script>
     const API_BASE = "https://mozakra-production.up.railway.app/api";
-
-    // دالة لجلب التوكن لضمان معالجة خطأ 401
-    const getHeaders = () => {
-        const token = localStorage.getItem("token");
-        return { 
-            "Authorization": `Bearer ${token}`,
-            "Content-Type": "application/json"
-        };
-    };
+    let token = localStorage.getItem("token");
 
     function show(id) {
         document.querySelectorAll(".screen").forEach(s => s.classList.remove("show"));
-        document.querySelectorAll(".admin-tabs span").forEach(t => t.classList.remove("active"));
-        const target = document.getElementById(id);
-        if(target) target.classList.add("show");
+        document.querySelectorAll(".tabs span").forEach(t => t.classList.remove("active"));
+        document.getElementById(id).classList.add("show");
         document.getElementById('t-' + id).classList.add("active");
         if(id === 'dash') updateDashboard();
     }
 
+    function logout() { localStorage.clear(); window.location.href = "login.html"; }
+
     async function updateDashboard() {
         try {
-            const [resC, resN] = await Promise.all([
-                fetch(`${API_BASE}/course`, { headers: getHeaders() }),
-                fetch(`${API_BASE}/get-notes`, { headers: getHeaders() })
-            ]);
-            const courses = await resC.json();
-            const notesData = await resN.json();
-            const notes = notesData.notes || notesData.data || [];
+            const res = await fetch(`${API_BASE}/course`, { headers: { "Authorization": `Bearer ${token}` } });
+            const courses = await res.json();
             document.getElementById("count-courses").innerText = Array.isArray(courses) ? courses.length : (courses.courses?.length || 0);
-            document.getElementById("count-notes").innerText = notes.length;
-        } catch (e) { console.error(e); }
+        } catch (e) { console.error("Dash error"); }
     }
 
-    async function fetchAllNotes() {
-        const list = document.getElementById("adminNotesList");
-        const empty = document.getElementById("noNotes");
-        list.innerHTML = "<tr><td colspan='4' style='text-align:center'>Loading...</td></tr>";
-        try {
-            const res = await fetch(`${API_BASE}/get-notes`, { headers: getHeaders() });
-            
-            // التعامل مع انتهاء الجلسة 401
-            if(res.status === 401) { logout(); return; }
-
-            const data = await res.json();
-            const notes = data.notes || data.data || [];
-            list.innerHTML = "";
-            if (!notes || notes.length === 0) { empty.style.display = "block"; return; }
-            empty.style.display = "none";
-            notes.forEach(n => {
-                const row = document.createElement("tr");
-                row.innerHTML = `
-                    <td>${new Date(n.createdAt).toLocaleDateString()}</td>
-                    <td style="max-width:180px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${n.description}</td>
-                    <td><span class="status-badge">SAVED</span></td>
-                    <td><button class="delete-btn" onclick="deleteNote('${n._id}')">Del</button></td>
-                `;
-                list.appendChild(row);
-            });
-        } catch (e) { list.innerHTML = "<tr><td colspan='4' style='text-align:center'>Connection Error</td></tr>"; }
-    }
-
-    // باقي دوال الحذف والرفع (loadFiles, uploadPDF, deleteNote, deleteFile)
     async function loadFiles() {
         const list = document.getElementById("files-list");
-        list.innerHTML = "<tr><td colspan='2' style='text-align:center;'>Loading...</td></tr>";
+        list.innerHTML = "<tr><td style='text-align:center;'>Loading...</td></tr>";
         try {
-            const res = await fetch(`${API_BASE}/course`, { headers: getHeaders() });
+            const res = await fetch(`${API_BASE}/course`, { headers: { "Authorization": `Bearer ${token}` } });
             const data = await res.json();
             const courses = Array.isArray(data) ? data : (data.courses || []);
             list.innerHTML = "";
             courses.forEach(item => {
                 const row = document.createElement("tr");
-                row.innerHTML = `<td>${item.courseName}</td><td><button class="delete-btn" onclick="deleteFile('${item._id}')">Delete</button></td>`;
+                row.innerHTML = `
+                    <td style="width:75%">${item.courseName}</td>
+                    <td><button class="delete-btn" onclick="deleteFile('${item._id}')">Delete</button></td>
+                `;
                 list.appendChild(row);
             });
-        } catch (e) { list.innerHTML = "<tr><td colspan='2'>Error</td></tr>"; }
+        } catch (e) { list.innerHTML = "<tr><td>Error loading files</td></tr>"; }
     }
 
-    async function deleteNote(id) { if(confirm("Delete?")) { await fetch(`${API_BASE}/note/${id}`, { method: "DELETE", headers: getHeaders() }); fetchAllNotes(); updateDashboard(); } }
-    async function deleteFile(id) { if(confirm("Delete?")) { await fetch(`${API_BASE}/course/${id}`, { method: "DELETE", headers: getHeaders() }); loadFiles(); updateDashboard(); } }
-
-    function filterNotes() {
-        const val = document.getElementById("searchInput").value.toLowerCase();
-        document.querySelectorAll("#adminNotesList tr").forEach(row => row.style.display = row.innerText.toLowerCase().includes(val) ? "" : "none");
+    async function deleteFile(id) {
+        if(!confirm("Are you sure?")) return;
+        try {
+            const res = await fetch(`${API_BASE}/course/${id}`, {
+                method: "DELETE",
+                headers: { "Authorization": `Bearer ${token}` }
+            });
+            if(res.ok) { loadFiles(); updateDashboard(); }
+        } catch (e) { alert("Delete failed"); }
     }
 
-    function logout() { 
-        localStorage.clear(); 
-        window.location.replace("login.html"); 
+    async function uploadPDF() {
+        const file = document.getElementById("pdfFile").files[0];
+        const name = document.getElementById("course-name-input").value;
+        if(!file || !name) return alert("Fill all fields");
+        const formData = new FormData();
+        formData.append("pdf", file);
+        formData.append("courseName", name);
+        try {
+            const res = await fetch(`${API_BASE}/upload`, {
+                method: "POST",
+                headers: { "Authorization": `Bearer ${token}` },
+                body: formData
+            });
+            if(res.ok) { alert("Uploaded!"); show('manage'); loadFiles(); }
+        } catch (e) { alert("Upload error"); }
     }
 
-    window.onload = () => {
-        if(!localStorage.getItem("token")) window.location.replace("login.html");
-        updateDashboard();
-        show('dash');
-    };
+    async function updatePassword() {
+        const payload = { 
+            userName: document.getElementById("up-user").value, 
+            newPassword: document.getElementById("up-pass").value, 
+            rePassword: document.getElementById("up-repass").value 
+        };
+        try {
+            const res = await fetch(`${API_BASE}/update-password`, {
+                method: "PUT",
+                headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
+                body: JSON.stringify(payload)
+            });
+            alert(res.ok ? "Account Updated" : "Failed to update");
+        } catch (e) { alert("Network Error"); }
+    }
+
+    window.onload = () => { if(!token) window.location.href="login.html"; updateDashboard(); };
 </script>
 </body>
 </html>
