@@ -7,22 +7,43 @@
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
-        body { background-color: #6f93db; height: 100vh; display: flex; justify-content: center; align-items: center; }
-        .admin-card { background: #fff; width: 440px; padding: 35px; border-radius: 25px; text-align: center; box-shadow: 0 15px 35px rgba(0,0,0,0.2); }
-        .logo img { width: 130px; margin-bottom: 20px; }
-        .tabs { display: flex; justify-content: space-between; margin-bottom: 25px; border-bottom: 1px solid #eee; padding-bottom: 10px; }
-        .tabs span { font-size: 10px; font-weight: 700; cursor: pointer; color: #bbb; transition: 0.3s; text-transform: uppercase; }
-        .tabs span.active { color: #00cfff; border-bottom: 2px solid #00cfff; padding-bottom: 8px; }
-        input { width: 100%; padding: 12px; margin-bottom: 12px; border-radius: 10px; border: 1px solid #ddd; outline: none; font-size: 14px; background: #f9f9f9; }
-        .btn-action { width: 100%; padding: 13px; background: #00cfff; border: none; color: #fff; font-size: 15px; border-radius: 10px; font-weight: bold; cursor: pointer; transition: 0.3s; }
-        .btn-action:disabled { background: #ccc; cursor: not-allowed; }
-        .screen { display: none; }
+        body { background-color: #6f93db; min-height: 100vh; display: flex; justify-content: center; align-items: center; padding: 20px; }
+        
+        /* كارت ضخم واحترافي لملء مساحة الصفحة */
+        .admin-card { background: #fff; width: 100%; max-width: 600px; min-height: 720px; padding: 50px; border-radius: 45px; text-align: center; box-shadow: 0 35px 80px rgba(0,0,0,0.3); display: flex; flex-direction: column; }
+        
+        .logo img { width: 190px; margin-bottom: 40px; }
+        
+        /* التبويبات المحدثة بعد حذف Add Admin */
+        .tabs { display: flex; justify-content: space-between; margin-bottom: 45px; border-bottom: 2px solid #f0f4f8; padding-bottom: 15px; }
+        .tabs span { font-size: 11px; font-weight: 700; cursor: pointer; color: #cbd5e0; transition: 0.3s; text-transform: uppercase; flex: 1; text-align: center; letter-spacing: 0.5px; }
+        .tabs span.active { color: #00cfff; border-bottom: 4px solid #00cfff; padding-bottom: 11px; }
+        
+        /* إحصائيات ضخمة للداشبورد */
+        .dash-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-bottom: 45px; }
+        .dash-box { background: #f8fbff; padding: 40px; border-radius: 30px; border: 2px solid #edf2f7; transition: 0.3s; }
+        .dash-box h4 { font-size: 12px; color: #a0aec0; text-transform: uppercase; margin-bottom: 15px; }
+        .dash-box p { font-size: 52px; font-weight: 800; color: #6f93db; }
+
+        h2 { font-size: 30px; margin-bottom: 35px; color: #2d3748; }
+        input { width: 100%; padding: 22px; margin-bottom: 25px; border-radius: 20px; border: 2px solid #edf2f7; outline: none; font-size: 17px; background: #fbfbfb; transition: 0.3s; }
+        input:focus { border-color: #00cfff; background: #fff; box-shadow: 0 0 15px rgba(0,207,255,0.1); }
+
+        .btn-action { width: 100%; padding: 22px; background: #00cfff; border: none; color: #fff; font-size: 19px; border-radius: 20px; font-weight: bold; cursor: pointer; transition: 0.3s; box-shadow: 0 12px 25px rgba(0,207,255,0.3); }
+        .btn-action:hover { transform: translateY(-3px); background: #00b8e6; }
+        
+        .screen { display: none; animation: fadeIn 0.5s ease; flex: 1; }
         .screen.show { display: block; }
-        .btn-logout { background: none; border: none; color: #ff4d4d; font-weight: bold; cursor: pointer; font-size: 13px; text-decoration: underline; margin-top: 20px; }
-        h2 { font-size: 18px; margin-bottom: 15px; color: #333; }
-        #files-list { margin-top: 15px; max-height: 200px; overflow-y: auto; text-align: left; border: 1px solid #eee; border-radius: 10px; }
-        .file-item { display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #f9f9f9; font-size: 12px; }
-        .del-mini { color: #ff4d4d; cursor: pointer; font-weight: bold; font-size: 10px; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* تنسيق القوائم للملفات والملاحظات */
+        .scroll-list { margin-top: 20px; max-height: 380px; overflow-y: auto; text-align: left; padding-right: 10px; }
+        .list-item { display: flex; justify-content: space-between; align-items: center; padding: 25px; background: #f8fafc; margin-bottom: 15px; border-radius: 22px; border-left: 8px solid #6f93db; }
+        .item-text { font-size: 17px; font-weight: 600; color: #4a5568; }
+        .del-btn { color: #e53e3e; cursor: pointer; font-weight: 800; font-size: 13px; text-transform: uppercase; padding: 10px; border-radius: 10px; transition: 0.2s; }
+        .del-btn:hover { background: #fff5f5; }
+
+        .btn-logout { background: none; border: none; color: #e53e3e; font-weight: bold; cursor: pointer; font-size: 17px; margin-top: auto; padding-top: 40px; letter-spacing: 1px; }
     </style>
 </head>
 <body>
@@ -31,43 +52,56 @@
     <div class="logo"><img src="assets/Rectangle-6.png" alt="Mozakra"></div>
 
     <div class="tabs">
-        <span id="t-reset" class="active" onclick="show('reset')">Reset</span>
-        <span id="t-upload" onclick="show('upload')">Upload</span>
-        <span id="t-manage" onclick="show('manage'); loadFiles();">Manage</span>
-        <span id="t-create" onclick="show('create')">Create</span>
+        <span id="t-dash" class="active" onclick="show('dash')">Dash</span>
+        <span id="t-reset" onclick="show('reset')">Pass</span>
+        <span id="t-upload" onclick="show('upload')">Add File</span>
+        <span id="t-manage" onclick="show('manage'); loadFiles();">Files</span>
+        <span id="t-notes" onclick="show('notes'); loadAdminNotes();">Notes</span>
     </div>
 
-    <div id="reset" class="screen show">
-        <h2>Update Password</h2>
-        <input id="up-user" type="text" placeholder="Username (Email)">
+    <div id="dash" class="screen show">
+        <h2>System Status</h2>
+        <div class="dash-grid">
+            <div class="dash-box">
+                <h4>Total Courses</h4>
+                <p id="count-courses">0</p>
+            </div>
+            <div class="dash-box">
+                <h4>Total Notes</h4>
+                <p id="count-notes">0</p>
+            </div>
+        </div>
+        <button class="btn-action" style="background: #6f93db;" onclick="show('upload')">Upload New Material</button>
+    </div>
+
+    <div id="notes" class="screen">
+        <h2>Student Notes</h2>
+        <div id="notes-list" class="scroll-list"></div>
+        <button class="btn-action" style="background:#718096; margin-top:15px;" onclick="loadAdminNotes()">Refresh List</button>
+    </div>
+
+    <div id="reset" class="screen">
+        <h2>Change Password</h2>
+        <input id="up-user" type="text" placeholder="Admin Username">
         <input id="up-pass" type="password" placeholder="New Password">
-        <input id="up-repass" type="password" placeholder="Confirm New Password">
-        <button class="btn-action" onclick="updatePassword()">Update Now</button>
+        <input id="up-repass" type="password" placeholder="Confirm Password">
+        <button class="btn-action" onclick="updatePassword()">Update Account</button>
     </div>
 
     <div id="upload" class="screen">
-        <h2>Upload PDF</h2>
-        <input type="text" id="course-name-input" placeholder="Course Name">
-        <input type="file" id="pdfFile" accept=".pdf">
-        <button class="btn-action" onclick="uploadPDF()">Upload Now</button>
+        <h2>Publish PDF</h2>
+        <input type="text" id="course-name-input" placeholder="Enter Course Name">
+        <input type="file" id="pdfFile" accept=".pdf" style="margin-bottom: 30px;">
+        <button class="btn-action" onclick="uploadPDF()">Start Upload</button>
     </div>
 
     <div id="manage" class="screen">
-        <h2>Manage Courses</h2>
-        <div id="files-list"></div>
-        <button class="btn-action" style="background:#6c757d; margin-top:10px; font-size:11px;" onclick="loadFiles()">Refresh List</button>
+        <h2>Course Library</h2>
+        <div id="files-list" class="scroll-list"></div>
+        <button class="btn-action" style="background:#718096; margin-top:15px;" onclick="loadFiles()">Refresh Files</button>
     </div>
 
-    <div id="create" class="screen">
-        <h2>Add Admin User</h2>
-        <input id="cu-name" placeholder="Full Name">
-        <input id="cu-email" placeholder="Email / Username">
-        <input id="cu-phone" placeholder="Phone">
-        <input id="cu-pass" type="password" placeholder="Password">
-        <button class="btn-action" onclick="createUser()">Create</button>
-    </div>
-
-    <button class="btn-logout" onclick="logout()">Logout</button>
+    <button class="btn-logout" onclick="logout()">LOGOUT SYSTEM</button>
 </div>
 
 <script>
@@ -79,117 +113,89 @@
         document.querySelectorAll(".tabs span").forEach(t => t.classList.remove("active"));
         document.getElementById(id).classList.add("show");
         document.getElementById('t-' + id).classList.add("active");
+        if(id === 'dash') updateDashboard();
     }
 
     function logout() { localStorage.clear(); window.location.href = "login.html"; }
 
-    // --- تحديث كلمة المرور بناءً على لقطة الشاشة image_4bd3eb.png ---
-    async function updatePassword() {
-        const username = document.getElementById("up-user").value;
-        const newPassword = document.getElementById("up-pass").value;
-        const rePassword = document.getElementById("up-repass").value;
-        const btn = document.querySelector("#reset .btn-action");
-
-        if (newPassword !== rePassword) return alert("Passwords do not match!");
-
-        const payload = {
-            userName: username,
-            newPassword: newPassword, // الحقل المطلوب
-            rePassword: rePassword    // الحقل المطلوب
-        };
-
-        btn.disabled = true;
+    async function updateDashboard() {
         try {
-            const res = await fetch(`${API_BASE}/update-password`, {
-                method: "PUT",
-                headers: { 
-                    "Content-Type": "application/json", 
-                    "Authorization": "Bearer " + token 
-                },
-                body: JSON.stringify(payload)
-            });
-
-            const result = await res.json().catch(() => ({}));
-
-            if (res.ok) {
-                alert("✅ Password Updated Successfully!");
-                document.querySelectorAll("#reset input").forEach(i => i.value = "");
-            } else {
-                alert(`❌ Error: ${result.message || "Failed to update"}`);
-            }
-        } catch (e) {
-            alert("❌ Network Error");
-        } finally {
-            btn.disabled = false;
-        }
+            const [resC, resN] = await Promise.all([
+                fetch(`${API_BASE}/course`, { headers: { "Authorization": `Bearer ${token}` } }),
+                fetch(`${API_BASE}/get-notes`, { headers: { "Authorization": `Bearer ${token}` } })
+            ]);
+            const courses = await resC.json();
+            const notesData = await resN.json();
+            const notes = notesData.notes || notesData.data || [];
+            document.getElementById("count-courses").innerText = Array.isArray(courses) ? courses.length : (courses.courses?.length || 0);
+            document.getElementById("count-notes").innerText = notes.length;
+        } catch (e) { console.error("Dash error"); }
     }
 
-    // --- بقية الدوال التي تعمل بالفعل ---
-    async function loadFiles() {
-        const list = document.getElementById("files-list");
-        list.innerHTML = "<p style='font-size:10px;'>Loading...</p>";
+    async function loadAdminNotes() {
+        const list = document.getElementById("notes-list");
+        list.innerHTML = "<p style='text-align:center;'>Loading notes...</p>";
         try {
-            const res = await fetch(`${API_BASE}/course`, {
-                headers: { "Authorization": "Bearer " + token }
-            });
+            const res = await fetch(`${API_BASE}/get-notes`, { headers: { "Authorization": `Bearer ${token}` } });
             const data = await res.json();
-            const courses = Array.isArray(data) ? data : (data.courses || []);
-            list.innerHTML = "";
-            courses.forEach(item => {
+            const notes = data.notes || data.data || [];
+            list.innerHTML = notes.length ? "" : "<p style='text-align:center;'>No notes found.</p>";
+            notes.forEach(n => {
                 const div = document.createElement("div");
-                div.className = "file-item";
-                div.innerHTML = `<span>${item.courseName || 'Course'}</span>
-                                 <span class="del-mini" onclick="deleteFile('${item.id || item._id}')">DELETE</span>`;
+                div.className = "list-item";
+                div.innerHTML = `<span class="item-text">${n.description}</span><span class="del-btn" onclick="deleteNote('${n._id}')">Delete</span>`;
                 list.appendChild(div);
             });
-        } catch (e) { list.innerHTML = "<p>Error loading files.</p>"; }
+        } catch (e) { list.innerHTML = "<p>Error loading.</p>"; }
     }
 
     async function uploadPDF() {
-        const fileInput = document.getElementById("pdfFile");
-        const nameInput = document.getElementById("course-name-input");
-        const file = fileInput.files[0];
-        const btn = document.querySelector("#upload .btn-action");
-        if (!file || !nameInput.value) return alert("Fill fields");
+        const name = document.getElementById("course-name-input").value;
+        const file = document.getElementById("pdfFile").files[0];
+        if(!file || !name) return alert("Please fill all fields");
         const formData = new FormData();
         formData.append("pdf", file);
-        formData.append("courseName", nameInput.value);
-        btn.disabled = true;
-        try {
-            const res = await fetch(`${API_BASE}/upload`, {
-                method: "POST",
-                headers: { "Authorization": "Bearer " + token },
-                body: formData
-            });
-            if (res.ok) { alert("✅ Uploaded!"); loadFiles(); }
-            else { alert("❌ Upload Failed (500)"); }
-        } catch (e) { alert("❌ Error"); }
-        finally { btn.disabled = false; }
-    }
-
-    async function deleteFile(id) {
-        if(!confirm("Are you sure?")) return;
-        const res = await fetch(`${API_BASE}/course/${id}`, {
-            method: "DELETE",
-            headers: { "Authorization": "Bearer " + token }
-        });
-        if (res.ok) { alert("Deleted!"); loadFiles(); }
-    }
-
-    async function createUser() {
-        const payload = {
-            name: document.getElementById("cu-name").value,
-            userName: document.getElementById("cu-email").value,
-            phone: document.getElementById("cu-phone").value,
-            password: document.getElementById("cu-pass").value
-        };
-        const res = await fetch(`${API_BASE}/admin/users`, {
+        formData.append("courseName", name);
+        const res = await fetch(`${API_BASE}/upload`, {
             method: "POST",
-            headers: { "Content-Type": "application/json", "Authorization": "Bearer " + token },
+            headers: { "Authorization": `Bearer ${token}` },
+            body: formData
+        });
+        if(res.ok) { alert("✅ Published!"); show('manage'); loadFiles(); }
+    }
+
+    async function loadFiles() {
+        const list = document.getElementById("files-list");
+        const res = await fetch(`${API_BASE}/course`, { headers: { "Authorization": `Bearer ${token}` } });
+        const data = await res.json();
+        const courses = Array.isArray(data) ? data : (data.courses || []);
+        list.innerHTML = "";
+        courses.forEach(item => {
+            const div = document.createElement("div");
+            div.className = "list-item";
+            div.innerHTML = `<span class="item-text">${item.courseName}</span><span class="del-btn" onclick="deleteFile('${item._id}')">Delete</span>`;
+            list.appendChild(div);
+        });
+    }
+
+    async function updatePassword() {
+        const payload = { 
+            userName: document.getElementById("up-user").value, 
+            newPassword: document.getElementById("up-pass").value, 
+            rePassword: document.getElementById("up-repass").value 
+        };
+        const res = await fetch(`${API_BASE}/update-password`, {
+            method: "PUT",
+            headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
             body: JSON.stringify(payload)
         });
-        alert(res.ok ? "✅ User Created!" : "❌ Error");
+        alert(res.ok ? "✅ Password Updated!" : "❌ Failed");
     }
+
+    async function deleteFile(id) { if(confirm("Delete Course?")) { await fetch(`${API_BASE}/course/${id}`, { method: "DELETE", headers: { "Authorization": `Bearer ${token}` } }); loadFiles(); updateDashboard(); } }
+    async function deleteNote(id) { if(confirm("Delete Note?")) { await fetch(`${API_BASE}/note/${id}`, { method: "DELETE", headers: { "Authorization": `Bearer ${token}` } }); loadAdminNotes(); updateDashboard(); } }
+
+    window.onload = () => { if(!token) window.location.href="login.html"; updateDashboard(); };
 </script>
 </body>
 </html>
