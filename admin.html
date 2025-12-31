@@ -12,8 +12,8 @@
         .admin-card { 
             background: #fff; 
             width: 100%; 
-            max-width: 700px; 
-            min-height: 800px; 
+            max-width: 600px; 
+            min-height: 750px; 
             padding: 40px; 
             border-radius: 45px; 
             text-align: center; 
@@ -22,41 +22,39 @@
             flex-direction: column; 
         }
         
-        .logo img { width: 160px; margin-bottom: 30px; }
+        .logo img { width: 140px; margin-bottom: 30px; }
         
         /* Navigation Tabs */
-        .tabs { display: flex; justify-content: space-around; margin-bottom: 35px; border-bottom: 2px solid #f0f4f8; padding-bottom: 10px; }
-        .tabs span { font-size: 11px; font-weight: 800; cursor: pointer; color: #cbd5e0; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; padding: 5px 10px; }
-        .tabs span.active { color: #00cfff; border-bottom: 4px solid #00cfff; margin-bottom: -12px; }
+        .tabs { display: flex; justify-content: space-around; margin-bottom: 35px; border-bottom: 1px solid #f0f4f8; padding-bottom: 10px; }
+        .tabs span { font-size: 10px; font-weight: 800; cursor: pointer; color: #cbd5e0; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px; }
+        .tabs span.active { color: #00cfff; border-bottom: 3px solid #00cfff; padding-bottom: 7px; }
         
-        /* Dashboard Stats */
+        h2 { font-size: 24px; margin-bottom: 20px; color: #2d3748; }
+        
+        /* Stats Grid for Dashboard */
         .dash-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 30px; }
         .dash-box { background: #f8fbff; padding: 30px; border-radius: 25px; border: 2px solid #edf2f7; }
         .dash-box h4 { font-size: 11px; color: #a0aec0; text-transform: uppercase; margin-bottom: 10px; }
         .dash-box p { font-size: 40px; font-weight: 800; color: #6f93db; }
 
-        h2 { font-size: 26px; margin-bottom: 25px; color: #2d3748; }
-        
-        /* Inputs & Buttons */
-        input { width: 100%; padding: 18px; margin-bottom: 15px; border-radius: 15px; border: 2px solid #edf2f7; outline: none; font-size: 15px; background: #fbfbfb; transition: 0.3s; }
+        /* Form Inputs */
+        input { width: 100%; padding: 18px; margin-bottom: 15px; border-radius: 15px; border: 1px solid #edf2f7; outline: none; font-size: 14px; background: #fbfbfb; }
         input:focus { border-color: #00cfff; background: #fff; }
-        .btn-action { width: 100%; padding: 18px; background: #00cfff; border: none; color: #fff; font-size: 16px; border-radius: 15px; font-weight: 800; cursor: pointer; transition: 0.3s; box-shadow: 0 10px 20px rgba(0,207,255,0.2); }
-        .btn-action:hover { transform: translateY(-2px); background: #00b8e6; }
+
+        /* Tables & Lists */
+        .table-box { border: 1px solid #edf2f7; border-radius: 20px; overflow: hidden; margin-bottom: 20px; max-height: 350px; overflow-y: auto; }
+        table { width: 100%; border-collapse: collapse; }
+        th { background: #fbfcfe; padding: 12px; font-size: 9px; color: #cbd5e0; text-transform: uppercase; text-align: left; border-bottom: 1px solid #edf2f7; }
+        td { padding: 15px; font-size: 13px; color: #718096; text-align: left; border-bottom: 1px solid #f9f9f9; }
+
+        .btn-refresh { background: #718096; color: white; border: none; padding: 18px; border-radius: 20px; width: 100%; font-weight: 800; cursor: pointer; font-size: 16px; margin-top: auto; }
+        .btn-action { background: #00cfff; color: white; border: none; padding: 18px; border-radius: 20px; width: 100%; font-weight: 800; cursor: pointer; font-size: 16px; box-shadow: 0 10px 20px rgba(0,207,255,0.2); }
         
-        /* Screens Management */
-        .screen { display: none; animation: fadeIn 0.4s ease; flex: 1; }
-        .screen.show { display: block; }
+        .screen { display: none; flex-direction: column; flex: 1; animation: fadeIn 0.4s ease; }
+        .screen.show { display: flex; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* Modern Table Styling */
-        .table-container { background: #f8fbff; border-radius: 20px; border: 2px solid #edf2f7; overflow: hidden; margin-top: 10px; max-height: 350px; overflow-y: auto; }
-        table { width: 100%; border-collapse: collapse; text-align: left; }
-        th { padding: 15px; font-size: 10px; color: #a0aec0; text-transform: uppercase; border-bottom: 2px solid #edf2f7; }
-        td { padding: 15px; font-size: 13px; color: #4a5568; border-bottom: 1px solid #edf2f7; }
-        .del-btn { color: #e53e3e; cursor: pointer; font-weight: 800; font-size: 11px; text-transform: uppercase; padding: 5px 10px; border-radius: 8px; transition: 0.2s; }
-        .del-btn:hover { background: #fff5f5; }
-
-        .btn-logout { background: none; border: none; color: #e53e3e; font-weight: 800; cursor: pointer; font-size: 14px; margin-top: 30px; text-transform: uppercase; letter-spacing: 1px; }
+        .logout-text { color: #e53e3e; font-weight: 800; cursor: pointer; font-size: 12px; margin-top: 30px; text-transform: uppercase; text-decoration: none; display: block; }
     </style>
 </head>
 <body>
@@ -65,7 +63,7 @@
     <div class="logo"><img src="assets/Rectangle-6.png" alt="Mozakra"></div>
 
     <div class="tabs">
-        <span id="t-dash" class="active" onclick="show('dash')">Dash</span>
+        <span id="t-dash" onclick="show('dash')">Dash</span>
         <span id="t-reset" onclick="show('reset')">Pass</span>
         <span id="t-upload" onclick="show('upload')">Add File</span>
         <span id="t-manage" onclick="show('manage'); loadFiles();">Files</span>
@@ -89,21 +87,21 @@
 
     <div id="notes" class="screen">
         <h2>Student Notes</h2>
-        <input type="text" id="adminSearchNote" placeholder="Search in notes..." onkeyup="filterAdminNotes()">
-        <div class="table-container">
+        <input type="text" class="search-input" style="width:100%; padding:15px; margin-bottom:15px; border-radius:15px; border:1px solid #eee;" id="searchBox" placeholder="Search in notes..." onkeyup="filterNotes()">
+        <div class="table-box">
             <table>
                 <thead>
                     <tr>
-                        <th>Date</th>
-                        <th>Content</th>
-                        <th>Action</th>
+                        <th style="width: 30%;">Date</th>
+                        <th style="width: 50%;">Content</th>
+                        <th style="width: 20%;">Action</th>
                     </tr>
                 </thead>
-                <tbody id="adminNotesTableBody"></tbody>
+                <tbody id="notes-list"></tbody>
             </table>
-            <div id="adminNoNotes" style="display:none; padding:20px; color:#cbd5e0;">No notes found.</div>
+            <div id="no-notes" style="padding: 40px; color: #cbd5e0; display: none;">No notes found.</div>
         </div>
-        <button class="btn-action" style="background:#718096; margin-top:15px;" onclick="loadAdminNotes()">Refresh List</button>
+        <button class="btn-refresh" onclick="loadAdminNotes()">Refresh List</button>
     </div>
 
     <div id="reset" class="screen">
@@ -117,32 +115,35 @@
     <div id="upload" class="screen">
         <h2>Publish PDF</h2>
         <input type="text" id="course-name-input" placeholder="Enter Course Name">
-        <input type="file" id="pdfFile" accept=".pdf" style="margin-bottom: 20px;">
+        <input type="file" id="pdfFile" accept=".pdf" style="margin-bottom: 20px; border:none; background:none;">
         <button class="btn-action" onclick="uploadPDF()">Start Upload</button>
     </div>
 
     <div id="manage" class="screen">
         <h2>Course Library</h2>
-        <div class="table-container">
+        <div class="table-box">
             <table>
                 <thead>
                     <tr>
-                        <th>Course Name</th>
-                        <th style="text-align: right;">Action</th>
+                        <th style="width: 70%;">Course Name</th>
+                        <th style="width: 30%;">Action</th>
                     </tr>
                 </thead>
                 <tbody id="files-list"></tbody>
             </table>
         </div>
-        <button class="btn-action" style="background:#718096; margin-top:15px;" onclick="loadFiles()">Refresh Files</button>
+        <button class="btn-refresh" onclick="loadFiles()">Refresh Files</button>
     </div>
 
-    <button class="btn-logout" onclick="logout()">LOGOUT SYSTEM</button>
+    <a href="login.html" onclick="localStorage.clear()" class="logout-text">LOGOUT SYSTEM</a>
 </div>
 
 <script>
     const API_BASE = "https://mozakra-production.up.railway.app/api";
     const token = localStorage.getItem("token");
+
+    // Redirect to login if no token to avoid 401 errors
+    if(!token) window.location.href = "login.html";
 
     function show(id) {
         document.querySelectorAll(".screen").forEach(s => s.classList.remove("show"));
@@ -151,8 +152,6 @@
         document.getElementById('t-' + id).classList.add("active");
         if(id === 'dash') updateDashboard();
     }
-
-    function logout() { localStorage.clear(); window.location.href = "login.html"; }
 
     async function updateDashboard() {
         try {
@@ -168,43 +167,41 @@
         } catch (e) { console.error("Dash error"); }
     }
 
-    // --- Student Notes Functions ---
     async function loadAdminNotes() {
-        const tableBody = document.getElementById("adminNotesTableBody");
-        const noNotesMsg = document.getElementById("adminNoNotes");
-        tableBody.innerHTML = "<tr><td colspan='3' style='text-align:center; padding:20px;'>Loading...</td></tr>";
-        
+        const list = document.getElementById("notes-list");
+        const noData = document.getElementById("no-notes");
+        list.innerHTML = "<tr><td colspan='3' style='text-align:center;'>Loading...</td></tr>";
         try {
             const res = await fetch(`${API_BASE}/get-notes`, { headers: { "Authorization": `Bearer ${token}` } });
             const data = await res.json();
             const notes = data.notes || data.data || [];
-            tableBody.innerHTML = "";
-            
-            if (notes.length === 0) { noNotesMsg.style.display = "block"; return; }
-            noNotesMsg.style.display = "none";
-
+            list.innerHTML = "";
+            if (notes.length === 0) { noData.style.display = "block"; return; }
+            noData.style.display = "none";
             notes.forEach(n => {
-                const date = n.createdAt ? new Date(n.createdAt).toLocaleDateString() : "N/A";
                 const row = document.createElement("tr");
-                row.innerHTML = `
-                    <td style="font-weight:700; color:#6f93db;">${date}</td>
-                    <td style="max-width:200px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${n.description}</td>
-                    <td style="text-align:right;"><span class="del-btn" onclick="deleteNote('${n._id}')">Delete</span></td>
-                `;
-                tableBody.appendChild(row);
+                row.innerHTML = `<td>${new Date(n.createdAt).toLocaleDateString()}</td><td style="max-width:150px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${n.description}</td><td><span style="color:#e53e3e; cursor:pointer; font-weight:800; font-size:10px;" onclick="deleteNote('${n._id}')">DELETE</span></td>`;
+                list.appendChild(row);
             });
-        } catch (e) { tableBody.innerHTML = "<tr><td colspan='3' style='text-align:center;'>Error loading.</td></tr>"; }
+        } catch (e) { list.innerHTML = "<tr><td colspan='3'>Error</td></tr>"; }
     }
 
-    function filterAdminNotes() {
-        const input = document.getElementById("adminSearchNote").value.toLowerCase();
-        const rows = document.querySelectorAll("#adminNotesTableBody tr");
-        rows.forEach(row => {
-            row.style.display = row.innerText.toLowerCase().includes(input) ? "" : "none";
-        });
+    async function loadFiles() {
+        const list = document.getElementById("files-list");
+        list.innerHTML = "<tr><td colspan='2' style='text-align:center;'>Loading...</td></tr>";
+        try {
+            const res = await fetch(`${API_BASE}/course`, { headers: { "Authorization": `Bearer ${token}` } });
+            const data = await res.json();
+            const courses = Array.isArray(data) ? data : (data.courses || []);
+            list.innerHTML = "";
+            courses.forEach(item => {
+                const row = document.createElement("tr");
+                row.innerHTML = `<td>${item.courseName}</td><td><span style="color:#e53e3e; cursor:pointer; font-weight:800; font-size:10px;" onclick="deleteFile('${item._id}')">DELETE</span></td>`;
+                list.appendChild(row);
+            });
+        } catch (e) { list.innerHTML = "<tr><td colspan='2'>Error</td></tr>"; }
     }
 
-    // --- File & PDF Functions ---
     async function uploadPDF() {
         const name = document.getElementById("course-name-input").value;
         const file = document.getElementById("pdfFile").files[0];
@@ -212,49 +209,25 @@
         const formData = new FormData();
         formData.append("pdf", file);
         formData.append("courseName", name);
-        const res = await fetch(`${API_BASE}/upload`, {
-            method: "POST",
-            headers: { "Authorization": `Bearer ${token}` },
-            body: formData
-        });
-        if(res.ok) { alert("✅ Published!"); show('manage'); loadFiles(); }
+        const res = await fetch(`${API_BASE}/upload`, { method: "POST", headers: { "Authorization": `Bearer ${token}` }, body: formData });
+        if(res.ok) { alert("Published!"); show('manage'); loadFiles(); }
     }
 
-    async function loadFiles() {
-        const list = document.getElementById("files-list");
-        const res = await fetch(`${API_BASE}/course`, { headers: { "Authorization": `Bearer ${token}` } });
-        const data = await res.json();
-        const courses = Array.isArray(data) ? data : (data.courses || []);
-        list.innerHTML = "";
-        courses.forEach(item => {
-            const row = document.createElement("tr");
-            row.innerHTML = `
-                <td style="font-weight:700;">${item.courseName}</td>
-                <td style="text-align:right;"><span class="del-btn" onclick="deleteFile('${item._id}')">Delete</span></td>
-            `;
-            list.appendChild(row);
-        });
-    }
-
-    // --- Account & Delete Functions ---
     async function updatePassword() {
-        const payload = { 
-            userName: document.getElementById("up-user").value, 
-            newPassword: document.getElementById("up-pass").value, 
-            rePassword: document.getElementById("up-repass").value 
-        };
-        const res = await fetch(`${API_BASE}/update-password`, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` },
-            body: JSON.stringify(payload)
-        });
-        alert(res.ok ? "✅ Password Updated!" : "❌ Failed");
+        const payload = { userName: document.getElementById("up-user").value, newPassword: document.getElementById("up-pass").value, rePassword: document.getElementById("up-repass").value };
+        const res = await fetch(`${API_BASE}/update-password`, { method: "PUT", headers: { "Content-Type": "application/json", "Authorization": `Bearer ${token}` }, body: JSON.stringify(payload) });
+        alert(res.ok ? "Password Updated!" : "Failed");
     }
 
     async function deleteFile(id) { if(confirm("Delete Course?")) { await fetch(`${API_BASE}/course/${id}`, { method: "DELETE", headers: { "Authorization": `Bearer ${token}` } }); loadFiles(); updateDashboard(); } }
     async function deleteNote(id) { if(confirm("Delete Note?")) { await fetch(`${API_BASE}/note/${id}`, { method: "DELETE", headers: { "Authorization": `Bearer ${token}` } }); loadAdminNotes(); updateDashboard(); } }
 
-    window.onload = () => { if(!token) window.location.href="login.html"; updateDashboard(); };
+    function filterNotes() {
+        const val = document.getElementById("searchBox").value.toLowerCase();
+        document.querySelectorAll("#notes-list tr").forEach(row => row.style.display = row.innerText.toLowerCase().includes(val) ? "" : "none");
+    }
+
+    window.onload = () => { updateDashboard(); show('dash'); };
 </script>
 </body>
 </html>
