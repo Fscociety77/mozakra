@@ -77,7 +77,6 @@
             overflow: hidden;
         }
 
-        /* زينة علوية للبطاقة */
         .profile-card::before {
             content: '';
             position: absolute;
@@ -190,17 +189,17 @@
     <div class="main-content">
         <div class="profile-card">
             <div class="avatar-container">
-                <div class="avatar-circle" id="userInitial">A</div>
+                <div class="avatar-circle" id="userInitial">S</div>
                 <div class="status-dot"></div>
             </div>
 
-            <h1 id="profName">Administrator</h1>
-            <span class="role-badge" id="profRole">System Manager</span>
+            <h1 id="profName">HTI Student</h1>
+            <span class="role-badge" id="profRole">Student</span>
 
             <div class="details-container">
                 <div class="detail-item">
                     <div class="detail-label">Username / Email</div>
-                    <div class="detail-value" id="profEmail">42021001@hti.edu.eg</div>
+                    <div class="detail-value" id="profEmail">42021003@hti.edu.eg</div>
                 </div>
 
                 <div class="detail-item">
@@ -214,7 +213,7 @@
                 </div>
             </div>
 
-            <p class="footer-note">This profile is managed by the central admin system.</p>
+            <p class="footer-note">This profile is managed by the student information system.</p>
             
             <a href="login.html" onclick="localStorage.clear()" class="logout-btn">Sign Out</a>
         </div>
@@ -224,8 +223,7 @@
         <div class="logo">
             <img src="assets/Rectangle-6.png" alt="Mozakra">
         </div>
-        <a href="dashboard.html" class="nav-link">Dashboard</a>
-        <a href="about.html " class="nav-link">Courses</a>
+        <a href="about.html" class="nav-link">Courses</a>
         <a href="notes.html" class="nav-link">Notes</a>
         <a href="#" class="nav-link active">Profile</a>
     </nav>
@@ -236,13 +234,14 @@
         function loadProfile() {
             if (!token) { window.location.href = "login.html"; return; }
 
-            // البيانات الافتراضية لحسابك
-            const adminEmail = "42021001@hti.edu.eg";
-            const adminName = "HTI Admin";
+            // تحديث البيانات البرمجية في الـ Script
+            const studentEmail = "42021003@hti.edu.eg";
+            const studentName = "Mohammed yasser";
             
-            document.getElementById("profName").innerText = adminName;
-            document.getElementById("profEmail").innerText = adminEmail;
-            document.getElementById("userInitial").innerText = adminName.charAt(0);
+            document.getElementById("profName").innerText = studentName;
+            document.getElementById("profEmail").innerText = studentEmail;
+            document.getElementById("userInitial").innerText = studentName.split(' ')[1].charAt(0); // يأخذ حرف 'S'
+            document.getElementById("profRole").innerText = "Student";
         }
 
         window.onload = loadProfile;
