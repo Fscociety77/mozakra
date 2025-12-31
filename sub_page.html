@@ -4,261 +4,151 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Mozakra</title>
-
-  <!-- Google Font -->
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700&display=swap" rel="stylesheet">
 
   <style>
-    .logout-btn-nav {
-  background: #ff4d4d;
-  color: white;
-  padding: 8px 18px;
-  border-radius: 8px;
-  text-decoration: none;
-  font-weight: bold;
-  cursor: pointer;
-  border: none;
-  font-family: 'Montserrat', sans-serif;
-}
-
-.login-btn-nav {
-  background: #00cfff;
-  color: white;
-  padding: 8px 18px;
-  border-radius: 8px;
-  text-decoration: none;
-  font-weight: bold;
-}
-    /* About CS Section */
-.about-cs {
-  display: flex;
-  justify-content: center;
-  margin: 60px 0 100px;
-}
-
-.about-cs {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 30px;
-  padding: 0 60px;
-  margin: 60px 0 100px;
-}
-
-.about-card {
-  background: linear-gradient(135deg, #acb3b4, #4aa3ff);
-  padding: 35px;
-  border-radius: 16px;
-  text-decoration: none;
-  color: white;
-  box-shadow: 0 15px 40px rgba(0,0,0,0.15);
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.about-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 25px 50px rgba(0,0,0,0.25);
-}
-
-.about-card h2 {
-  font-size: 26px;
-  margin-bottom: 15px;
-}
-
-.about-card p {
-  font-size: 15px;
-  line-height: 1.6;
-  opacity: 0.95;
-}
-
-.about-card span {
-  display: inline-block;
-  margin-top: 20px;
-  font-weight: 700;
-}
-
-/* Responsive */
-@media (max-width: 900px) {
-  .about-cs {
-    grid-template-columns: 1fr;
-  }
-}
-
-
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Montserrat', sans-serif;
-    }
-
-    body {
-      background-color: #6f93db;
-      color: #fff;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
+    body { background-color: #6f93db; color: #fff; min-height: 100vh; }
 
     /* Navbar */
-    .navbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 20px 60px;
-    }
-
-    .logo {
-      font-size: 26px;
-      font-weight: 700;
-    }
-
-    .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 25px;
-    }
-
-    .nav-links a {
-      text-decoration: none;
-      color: white;
-      font-weight: 600;
-    }
+    .navbar { display: flex; justify-content: space-between; align-items: center; padding: 20px 60px; }
+    .logo { font-size: 26px; font-weight: 700; }
+    .nav-links { display: flex; align-items: center; gap: 25px; }
+    .nav-links a { text-decoration: none; color: white; font-weight: 600; }
+    .logout-btn-nav { background: #ff4d4d; color: white; padding: 8px 18px; border-radius: 8px; border: none; font-weight: bold; cursor: pointer; }
+    .login-btn-nav { background: #00cfff; color: white; padding: 8px 18px; border-radius: 8px; text-decoration: none; font-weight: bold; }
 
     /* Quote */
-    .quote {
-      text-align: center;
-      margin: 80px auto 50px;
-      max-width: 900px;
-    }
+    .quote { text-align: center; margin: 50px auto 30px; max-width: 900px; }
+    .quote h1 { font-size: 30px; line-height: 1.4; }
+    .quote p { margin-top: 10px; font-size: 14px; opacity: 0.9; }
 
-    .quote h1 {
-      font-size: 34px;
-      line-height: 1.4;
-    }
-
-    .quote p {
-      margin-top: 25px;
-      font-size: 15px;
-      opacity: 0.9;
-    }
-
-    /* Images Grid */
-    .images {
-      padding: 0 60px 80px;
-    }
-
-    .image-grid {
+    /* About CS Section - 4 كروت طولية بجانب بعض */
+    .about-cs {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(4, 1fr); /* 4 أعمدة متساوية */
       gap: 20px;
+      padding: 0 40px 80px;
+      max-width: 1400px;
+      margin: 0 auto;
     }
 
-    .image-item {
+    .about-card {
+      background: linear-gradient(135deg, #acb3b4, #4aa3ff);
+      padding: 40px 25px;
+      border-radius: 20px;
+      text-decoration: none;
+      color: white;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      
+      /* جعل الكارت طويلاً */
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      min-height: 450px; 
+      text-align: center;
+    }
+
+    .about-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+    }
+
+    .about-card h2 { 
+      font-size: 22px; 
+      margin-bottom: 20px; 
+      min-height: 60px; /* لتوحيد مستوى العناوين */
+    }
+
+    .about-card p { 
+      font-size: 14px; 
+      line-height: 1.6; 
+      opacity: 0.9;
+      flex-grow: 1; /* يدفع السهم للأسفل */
+    }
+
+    .about-card span { 
+      display: block; 
+      margin-top: 30px; 
+      font-weight: 700; 
+      font-size: 13px;
+      background: rgba(255,255,255,0.2);
+      padding: 10px;
       border-radius: 10px;
-      overflow: hidden;
-      background: transparent;
     }
 
-    .image-item img {
-      width: 100%;
-      height: 180px;
-      object-fit: cover;
-      display: block;
+    /* الاستجابة للشاشات الصغيرة */
+    @media (max-width: 1024px) {
+      .about-cs { grid-template-columns: repeat(2, 1fr); } /* كارتين في كل سطر */
     }
-
-    @media (max-width: 900px) {
-      .image-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-    }
-
-    @media (max-width: 500px) {
-      .image-grid {
-        grid-template-columns: 1fr;
-      }
-      .navbar {
-        padding: 20px;
-      }
+    @media (max-width: 600px) {
+      .about-cs { grid-template-columns: 1fr; } /* كارت واحد في كل سطر للموبايل */
+      .navbar { padding: 20px; }
     }
   </style>
 </head>
 
 <body>
 
-  <!-- Header -->
   <header class="navbar">
     <div class="logo">Mozakra</div>
-
-   <nav class="nav-links" id="nav-links">
-  <a href="index.html">Home</a>
-  <a href="chat.html">Mozakra AI</a>
-  <a href="admin.html" id="admin-link" style="display: none;">Admin</a> <a href="videos.html">First Term ?</a>
-  <span id="auth-button-container"></span>
-</nav>
+    <nav class="nav-links" id="nav-links">
+      <a href="index.html">Home</a>
+      <a href="chat.html">Mozakra AI</a>
+      <a href="admin.html" id="admin-link" style="display: none;">Admin</a> 
+      <a href="videos.html">First Term ?</a>
+      <span id="auth-button-container"></span>
     </nav>
   </header>
 
-  <!-- Quote -->
   <section class="quote">
     <h1>"Every subject takes you one step closer to your goal"</h1>
-    <p>
-      Focus today, shine tomorrow —  
-      Small steps in study, big steps in success.
-    </p>
+    <p>Focus today, shine tomorrow — Small steps in study, big steps in success.</p>
+  </section>
 
-<!-- About Section -->
-<section class="about-cs">
+  <section class="about-cs">
+    <a href="about.html" class="about-card">
+      <h2>About CS Department</h2>
+      <p>Explore the core of Computer Science, academic paths, and the future of technology in our department.</p>
+      <span>Explore Department →</span>
+    </a>
 
-  <a href="about.html" class="about-card">
-    <h2>About CS Department</h2>
-    <p>
-      Learn more about the Computer Science department, its courses,
-      opportunities, and future careers.
-    </p>
-    <span>Explore →</span>
-  </a>
+    <a href="trakc.html" class="about-card">
+      <h2>CS Tracks</h2>
+      <p>Identify your passion in AI, Software Engineering, or Cybersecurity and start your specialized journey.</p>
+      <span>Explore Tracks →</span>
+    </a>
 
-  <a href="trakc.html" class="about-card">
-    <h2>CS Tracks</h2>
-    <p>
-      Discover different CS tracks, skills required,
-      and real-world opportunities.
-    </p>
-    <span>Explore →</span>
-  </a>
+    <a href="cs_regulation.html" class="about-card">
+      <h2>CS Regulations</h2>
+      <p>Understand the grading systems, department policies, and regulations to manage your studies effectively.</p>
+      <span>Explore Rules →</span>
+    </a>
 
-  <a href="cs_regulation.html" class="about-card">
-    <h2>CS Regulations</h2>
-    <p>
-      Learn about department rules, grading system,
-      and academic regulations.
-    </p>
-    <span>Explore →</span>
-  </a>
+    <a href="notes.html" class="about-card">
+      <h2>Academic Notes</h2>
+      <p>Stay organized with student feedback, track important reminders, and review shared academic insights.</p>
+      <span>Explore Notes →</span>
+    </a>
+  </section>
 
-</section>
-<script>
-  function updateNavbar() {
-    const token = localStorage.getItem("token");
-    const user = JSON.parse(localStorage.getItem("user") || "{}");
-    const container = document.getElementById("auth-button-container");
-    const adminLink = document.getElementById("admin-link");
+  <script>
+    function updateNavbar() {
+      const token = localStorage.getItem("token");
+      const user = JSON.parse(localStorage.getItem("user") || "{}");
+      const container = document.getElementById("auth-button-container");
+      const adminLink = document.getElementById("admin-link");
 
-    // 1. إظهار لين رابط الأدمن فقط لو المستخدم أدمن
-    if (user.roles && user.roles.includes("admin")) {
-      adminLink.style.display = "inline";
+      if (user.roles && user.roles.includes("admin")) { adminLink.style.display = "inline"; }
+      if (token) {
+        container.innerHTML = `<button class="logout-btn-nav" onclick="handleLogout()">Logout</button>`;
+      } else {
+        container.innerHTML = `<a href="login.html" class="login-btn-nav">Login</a>`;
+      }
     }
-
-    // 2. تغيير الزرار بناءً على حالة تسجيل الدخول
-    if (token) {
-      container.innerHTML = `<button class="logout-btn-nav" onclick="handleLogout()">Logout</button>`;
-    } else {
-      container.innerHTML = `<a href="login.html" class="login-btn-nav">Login</a>`;
-    }
-  }
-
-  function handleLogout() {
-    localStorage.clear(); // يمسح التوكن واليوزر
-    window.location.reload(); // يعمل ريفريش للصفحة عشان تتحدث
-  }
-
-  // تشغيل الفحص عند تحميل الصفحة
-  window.onload = updateNavbar;
-</script>
+    function handleLogout() { localStorage.clear(); window.location.reload(); }
+    window.onload = updateNavbar;
+  </script>
+</body>
+</html>
